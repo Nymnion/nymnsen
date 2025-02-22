@@ -9,16 +9,23 @@
     <style>
         :root {
             --wow-gold: #FFD700;
+            --wow-gold-hover: #FFE866;
             --wow-border: #4A4A4A;
             --bg-dark: #2B2B2B;
             --bg-light: #3D3D3D;
+            --bg-darker: #1A1A1A;
+            --text-light: #FFFFFF;
+            --text-muted: #888888;
+            --danger: #ff4444;
             --max-width: 1200px;
+            --shadow-color: rgba(255, 215, 0, 0.1);
+            --shadow-color-hover: rgba(255, 215, 0, 0.2);
         }
 
         body {
             font-family: Arial, sans-serif;
-            background-color: #1A1A1A;
-            color: #FFFFFF;
+            background-color: var(--bg-darker);
+            color: var(--text-light);
             margin: 0;
             padding: 20px;
             display: flex;
@@ -45,12 +52,12 @@
             padding: 20px;
             background: linear-gradient(to bottom, #3D3D3D, #2B2B2B);
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
+            box-shadow: 0 0 10px var(--shadow-color);
             transition: box-shadow 0.3s ease;
         }
 
         .header:hover {
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+            box-shadow: 0 0 20px var(--shadow-color-hover);
         }
 
         h1 {
@@ -58,6 +65,24 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             margin: 0;
         }
+
+        .category {
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards;
+            padding: 15px;
+            border-radius: 8px;
+            background: linear-gradient(to bottom, rgba(61, 61, 61, 0.1), transparent);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .category:nth-child(2) { animation-delay: 0.2s; }
+        .category:nth-child(3) { animation-delay: 0.4s; }
 
         .category-title {
             color: var(--wow-gold);
@@ -68,6 +93,19 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .category-title-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .category-title:hover {
+            color: #FFF;
+            text-shadow: 0 0 10px var(--wow-gold);
+            border-bottom-color: var(--wow-gold);
         }
 
         .category-title::after {
@@ -78,6 +116,26 @@
 
         .category-title.collapsed::after {
             transform: rotate(-90deg);
+        }
+
+        .category-title::before {
+            content: '';
+            width: 24px;
+            height: 24px;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        .category[data-category="consumables"] .category-title::before {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23FFD700" d="M40,20 h20 v40 a20,20 0 1,1 -20,0 v-40 M40,25 h20 v-5 h-20 v5"/></svg>');
+        }
+
+        .category[data-category="reagents"] .category-title::before {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23FFD700" d="M20,80 h60 v-10 h-60 v10 M25,70 h50 l-25,-50 l-25,50"/></svg>');
+        }
+
+        .category[data-category="cloth"] .category-title::before {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23FFD700" d="M30,20 c20,0 20,20 40,20 v40 c-20,0 -20,-20 -40,-20 v-40"/></svg>');
         }
 
         .items-grid {
@@ -115,20 +173,6 @@
             margin-bottom: 0;
             overflow: hidden;
         }
-
-        .category {
-            margin-bottom: 30px;
-            opacity: 0;
-            animation: fadeIn 0.5s ease forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .category:nth-child(2) { animation-delay: 0.2s; }
-        .category:nth-child(3) { animation-delay: 0.4s; }
 
         .item-row {
             display: grid;
@@ -171,13 +215,13 @@
 
         .currency-separator {
             margin: 0 1px;
-            color: #888;
+            color: var(--text-muted);
         }
 
         .gold-icon {
             width: 14px;
             height: 14px;
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%23FFD700" stroke="%23B8860B" stroke-width="5"/><circle cx="50" cy="50" r="35" fill="%23DAA520"/></svg>');
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="g"><stop offset="0%" stop-color="%23FFE866"/><stop offset="100%" stop-color="%23FFD700"/></radialGradient><filter id="f"><feGaussianBlur stdDeviation="2"/></filter></defs><circle cx="50" cy="50" r="45" fill="url(%23g)" stroke="%23B8860B" stroke-width="5"/><circle cx="50" cy="50" r="35" fill="%23DAA520" filter="url(%23f)"/></svg>');
             background-repeat: no-repeat;
             background-size: contain;
         }
@@ -185,7 +229,7 @@
         .silver-icon {
             width: 14px;
             height: 14px;
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%23C0C0C0" stroke="%23808080" stroke-width="5"/><circle cx="50" cy="50" r="35" fill="%23A0A0A0"/></svg>');
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="s"><stop offset="0%" stop-color="%23FFFFFF"/><stop offset="100%" stop-color="%23C0C0C0"/></radialGradient><filter id="b"><feGaussianBlur stdDeviation="1"/></filter></defs><circle cx="50" cy="50" r="45" fill="url(%23s)" stroke="%23808080" stroke-width="5"/><circle cx="50" cy="50" r="35" fill="%23A0A0A0" filter="url(%23b)"/></svg>');
             background-repeat: no-repeat;
             background-size: contain;
         }
@@ -259,12 +303,12 @@
         }
 
         .remove-item {
-            color: #ff4444;
+            color: var(--danger);
             cursor: pointer;
             padding: 0;
             width: 24px;
             height: 24px;
-            border: 1px solid #ff4444;
+            border: 1px solid var(--danger);
             border-radius: 4px;
             background: none;
             transition: all 0.2s ease;
@@ -276,8 +320,8 @@
         }
 
         .remove-item:hover {
-            background-color: #ff4444;
-            color: #000000;
+            background-color: var(--danger);
+            color: var(--bg-darker);
         }
 
         .cart-item-price {
@@ -293,11 +337,6 @@
             align-items: center;
             gap: 2px;
             white-space: nowrap;
-        }
-
-        .currency-separator {
-            margin: 0 1px;
-            color: #888;
         }
 
         @keyframes slideIn {
@@ -476,81 +515,89 @@
             </div>
 
             <div class="category">
-                <h2 class="category-title">Cloth</h2>
+                <h2 class="category-title">
+                    <div class="category-title-content">
+                        <!-- Icon will appear here from ::before -->
+                        Consumables
+                    </div>
+                    <!-- Arrow will be on the right -->
+                </h2>
                 <div class="items-grid">
                     <div class="item-row">
                         <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=4305">Bolt of Silk Cloth</a>
-                            <span class="stock-info">- 5 in stock</span>
+                            <a href="https://www.wowhead.com/classic/item=3823">Lesser Invisibility Potion</a>
+                            <span class="stock-info">- 3 in stock</span>
                         </div>
                         <div class="price">
-                            <span class="currency-amount">40<div class="silver-icon"></div></span>
+                            <span class="currency-amount">1<div class="gold-icon"></div></span>
+                            <span class="currency-amount">80<div class="silver-icon"></div></span>
                         </div>
                         <button class="add-to-cart" 
-                            data-item="Bolt of Silk Cloth" 
-                            data-price="40"
-                            data-item-id="4305"
-                            data-stock="5">Add to Cart</button>
+                            data-item="Lesser Invisibility Potion" 
+                            data-price="180"
+                            data-item-id="3823"
+                            data-stock="3">Add to Cart</button>
                     </div>
 
                     <div class="item-row">
                         <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=4338">Mageweave Cloth</a>
-                            <span class="stock-info">- 38 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">15<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Mageweave Cloth" 
-                            data-price="15"
-                            data-item-id="4338"
-                            data-stock="38">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=4339">Bolt of Mageweave</a>
-                            <span class="stock-info">- 4 in stock</span>
+                            <a href="https://www.wowhead.com/classic/item=3928">Superior Healing Potion</a>
+                            <span class="stock-info">- 22 in stock</span>
                         </div>
                         <div class="price">
                             <span class="currency-amount">80<div class="silver-icon"></div></span>
                         </div>
                         <button class="add-to-cart" 
-                            data-item="Bolt of Mageweave" 
+                            data-item="Superior Healing Potion" 
                             data-price="80"
-                            data-item-id="4339"
-                            data-stock="4">Add to Cart</button>
+                            data-item-id="3928"
+                            data-stock="22">Add to Cart</button>
                     </div>
 
                     <div class="item-row">
                         <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=14048">Bolt of Runecloth</a>
+                            <a href="https://www.wowhead.com/classic/item=12820">Winterfall Firewater</a>
+                            <span class="stock-info">- 15 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">1<div class="gold-icon"></div></span>
+                            <span class="currency-amount">20<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Winterfall Firewater" 
+                            data-price="120"
+                            data-item-id="12820"
+                            data-stock="15">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=13446">Major Healing Potion</a>
                             <span class="stock-info">- 25 in stock</span>
                         </div>
                         <div class="price">
-                            <span class="currency-amount">75<div class="silver-icon"></div></span>
+                            <span class="currency-amount">1<div class="gold-icon"></div></span>
                         </div>
                         <button class="add-to-cart" 
-                            data-item="Bolt of Runecloth" 
-                            data-price="75"
-                            data-item-id="14048"
+                            data-item="Major Healing Potion" 
+                            data-price="100"
+                            data-item-id="13446"
                             data-stock="25">Add to Cart</button>
                     </div>
 
                     <div class="item-row">
                         <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=14342">Mooncloth</a>
-                            <span class="stock-info">- 4 in stock</span>
+                            <a href="https://www.wowhead.com/classic/item=16971">Clamlette Surprise</a>
+                            <span class="stock-info">- 20 in stock</span>
                         </div>
                         <div class="price">
-                            <span class="currency-amount">6<div class="gold-icon"></div></span>
+                            <span class="currency-amount">50<div class="silver-icon"></div></span>
                         </div>
                         <button class="add-to-cart" 
-                            data-item="Mooncloth" 
-                            data-price="600"
-                            data-item-id="14342"
-                            data-stock="4">Add to Cart</button>
+                            data-item="Clamlette Surprise" 
+                            data-price="50"
+                            data-item-id="16971"
+                            data-stock="20">Add to Cart</button>
                     </div>
                 </div>
             </div>
@@ -630,88 +677,6 @@
                             data-item="Heart of the Wild" 
                             data-price="60"
                             data-item-id="10286"
-                            data-stock="20">Add to Cart</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="category">
-                <h2 class="category-title">Consumables</h2>
-                <div class="items-grid">
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=3823">Lesser Invisibility Potion</a>
-                            <span class="stock-info">- 3 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">1<div class="gold-icon"></div></span>
-                            <span class="currency-amount">80<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Lesser Invisibility Potion" 
-                            data-price="180"
-                            data-item-id="3823"
-                            data-stock="3">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=3928">Superior Healing Potion</a>
-                            <span class="stock-info">- 22 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">80<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Superior Healing Potion" 
-                            data-price="80"
-                            data-item-id="3928"
-                            data-stock="22">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=12820">Winterfall Firewater</a>
-                            <span class="stock-info">- 15 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">1<div class="gold-icon"></div></span>
-                            <span class="currency-amount">20<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Winterfall Firewater" 
-                            data-price="120"
-                            data-item-id="12820"
-                            data-stock="15">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=13446">Major Healing Potion</a>
-                            <span class="stock-info">- 25 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">1<div class="gold-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Major Healing Potion" 
-                            data-price="100"
-                            data-item-id="13446"
-                            data-stock="25">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=16971">Clamlette Surprise</a>
-                            <span class="stock-info">- 20 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">50<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Clamlette Surprise" 
-                            data-price="50"
-                            data-item-id="16971"
                             data-stock="20">Add to Cart</button>
                     </div>
                 </div>
@@ -1349,21 +1314,77 @@
             return `${silver}s`;
         }
 
+        // Add debounce function
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Debounce the search function
+        const debouncedFilter = debounce(function(searchTerm) {
+            searchTerm = searchTerm.toLowerCase();
+            const categories = document.querySelectorAll('.category');
+            let hasVisibleItems = false;
+
+            categories.forEach(category => {
+                const items = category.querySelectorAll('.item-row');
+                let categoryHasVisibleItems = false;
+
+                items.forEach(item => {
+                    const itemName = item.querySelector('a').textContent.toLowerCase();
+                    const isVisible = itemName.includes(searchTerm);
+                    item.style.display = isVisible ? '' : 'none';
+                    if (isVisible) {
+                        categoryHasVisibleItems = true;
+                        hasVisibleItems = true;
+                    }
+                });
+
+                category.style.display = categoryHasVisibleItems ? '' : 'none';
+            });
+
+            // Show "no results" message if needed
+            let noResultsMsg = document.querySelector('.no-results');
+            if (!hasVisibleItems) {
+                if (!noResultsMsg) {
+                    noResultsMsg = document.createElement('div');
+                    noResultsMsg.className = 'no-results';
+                    noResultsMsg.textContent = 'No items found';
+                    document.querySelector('.main-content').appendChild(noResultsMsg);
+                }
+            } else if (noResultsMsg) {
+                noResultsMsg.remove();
+            }
+        }, 300);  // Wait 300ms before executing search
+
+        // Update the search input to use debounced function
+        document.querySelector('.search-input').addEventListener('input', (e) => {
+            debouncedFilter(e.target.value);
+        });
+
+        // Optimize cart updates
         function updateCart() {
             const cartItems = document.querySelector('.cart-items');
             const cartTotal = document.querySelector('.cart-total');
             const copyText = document.querySelector('.copy-text');
+            let cartHTML = '';
+            let total = 0;
             
-            total = 0;
-            cartItems.innerHTML = '';
-            
+            // Build cart HTML in memory instead of doing multiple DOM updates
             for (const [item, data] of Object.entries(cart)) {
                 if (data.quantity > 0) {
                     const itemTotal = data.price * data.quantity;
                     total += itemTotal;
                     const escapedItem = item.replace(/'/g, "\\'").replace(/"/g, '\\"');
                     
-                    cartItems.innerHTML += `
+                    cartHTML += `
                         <div class="cart-item">
                             <button class="remove-item" onclick="removeItem('${escapedItem}')">×</button>
                             <div class="cart-item-name">
@@ -1383,11 +1404,8 @@
                 }
             }
             
-            // Refresh Wowhead tooltips after updating cart
-            if (typeof $WowheadPower !== 'undefined') {
-                $WowheadPower.refreshLinks();
-            }
-            
+            // Update DOM once
+            cartItems.innerHTML = cartHTML;
             cartTotal.innerHTML = `Total: <div class="currency-display">${formatPrice(total)}</div>`;
             
             // Create copy-paste text
@@ -1400,6 +1418,11 @@
             }
             mailText += `\nTotal: ${formatPriceText(total)}`;
             copyText.value = mailText;
+
+            // Only refresh Wowhead tooltips once after all updates are done
+            if (typeof $WowheadPower !== 'undefined') {
+                setTimeout(() => $WowheadPower.refreshLinks(), 100);
+            }
         }
 
         function updateItemQuantity(item, quantity) {
@@ -1420,43 +1443,6 @@
         function removeItem(item) {
             delete cart[item];
             updateCart();
-        }
-
-        function filterItems(searchTerm) {
-            searchTerm = searchTerm.toLowerCase();
-            const categories = document.querySelectorAll('.category');
-            let hasVisibleItems = false;
-
-            categories.forEach(category => {
-                const items = category.querySelectorAll('.item-row');
-                let categoryHasVisibleItems = false;
-
-                items.forEach(item => {
-                    const itemName = item.querySelector('a').textContent.toLowerCase();
-                    const isVisible = itemName.includes(searchTerm);
-                    item.style.display = isVisible ? '' : 'none';
-                    if (isVisible) {
-                        categoryHasVisibleItems = true;
-                        hasVisibleItems = true;
-                    }
-                });
-
-                // Hide empty categories
-                category.style.display = categoryHasVisibleItems ? '' : 'none';
-            });
-
-            // Show "no results" message if needed
-            let noResultsMsg = document.querySelector('.no-results');
-            if (!hasVisibleItems) {
-                if (!noResultsMsg) {
-                    noResultsMsg = document.createElement('div');
-                    noResultsMsg.className = 'no-results';
-                    noResultsMsg.textContent = 'No items found';
-                    document.querySelector('.main-content').appendChild(noResultsMsg);
-                }
-            } else if (noResultsMsg) {
-                noResultsMsg.remove();
-            }
         }
     </script>
 </body>
