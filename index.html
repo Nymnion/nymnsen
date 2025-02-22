@@ -85,15 +85,35 @@
             gap: 10px;
             margin-bottom: 20px;
             transition: max-height 0.3s ease, opacity 0.3s ease;
-            overflow: hidden;
-            max-height: 1000px;
+            overflow-y: auto;
+            max-height: 600px;
             opacity: 1;
+            padding-right: 10px;
+        }
+
+        .items-grid::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .items-grid::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+            border-radius: 4px;
+        }
+
+        .items-grid::-webkit-scrollbar-thumb {
+            background: var(--wow-border);
+            border-radius: 4px;
+        }
+
+        .items-grid::-webkit-scrollbar-thumb:hover {
+            background: var(--wow-gold);
         }
 
         .items-grid.collapsed {
             max-height: 0;
             opacity: 0;
             margin-bottom: 0;
+            overflow: hidden;
         }
 
         .category {
@@ -456,23 +476,243 @@
             </div>
 
             <div class="category">
+                <h2 class="category-title">Cloth</h2>
+                <div class="items-grid">
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=4305">Bolt of Silk Cloth</a>
+                            <span class="stock-info">- 5 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">40<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Bolt of Silk Cloth" 
+                            data-price="40"
+                            data-item-id="4305"
+                            data-stock="5">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=4338">Mageweave Cloth</a>
+                            <span class="stock-info">- 38 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">15<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Mageweave Cloth" 
+                            data-price="15"
+                            data-item-id="4338"
+                            data-stock="38">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=4339">Bolt of Mageweave</a>
+                            <span class="stock-info">- 4 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">80<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Bolt of Mageweave" 
+                            data-price="80"
+                            data-item-id="4339"
+                            data-stock="4">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=14048">Bolt of Runecloth</a>
+                            <span class="stock-info">- 25 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">75<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Bolt of Runecloth" 
+                            data-price="75"
+                            data-item-id="14048"
+                            data-stock="25">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=14342">Mooncloth</a>
+                            <span class="stock-info">- 4 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">6<div class="gold-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Mooncloth" 
+                            data-price="600"
+                            data-item-id="14342"
+                            data-stock="4">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category">
+                <h2 class="category-title">Herbs</h2>
+                <div class="items-grid">
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=2452">Swiftthistle</a>
+                            <span class="stock-info">- 26 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">40<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Swiftthistle" 
+                            data-price="40"
+                            data-item-id="2452"
+                            data-stock="26">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=2450">Briarthorn</a>
+                            <span class="stock-info">- 40 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">30<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Briarthorn" 
+                            data-price="30"
+                            data-item-id="2450"
+                            data-stock="40">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=785">Mageroyal</a>
+                            <span class="stock-info">- 30 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">25<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Mageroyal" 
+                            data-price="25"
+                            data-item-id="785"
+                            data-stock="30">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=8153">Wildvine</a>
+                            <span class="stock-info">- 13 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">90<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Wildvine" 
+                            data-price="90"
+                            data-item-id="8153"
+                            data-stock="13">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=10286">Heart of the Wild</a>
+                            <span class="stock-info">- 20 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">60<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Heart of the Wild" 
+                            data-price="60"
+                            data-item-id="10286"
+                            data-stock="20">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category">
                 <h2 class="category-title">Consumables</h2>
                 <div class="items-grid">
                     <div class="item-row">
                         <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=13446">Major Healing Potion</a>
-                            <span class="stock-info">- 10 in stock</span>
+                            <a href="https://www.wowhead.com/classic/item=3823">Lesser Invisibility Potion</a>
+                            <span class="stock-info">- 3 in stock</span>
                         </div>
                         <div class="price">
-                            <span class="currency-amount">2<div class="gold-icon"></div></span>
-                            <span class="currency-separator">.</span>
-                            <span class="currency-amount">50<div class="silver-icon"></div></span>
+                            <span class="currency-amount">1<div class="gold-icon"></div></span>
+                            <span class="currency-amount">80<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Lesser Invisibility Potion" 
+                            data-price="180"
+                            data-item-id="3823"
+                            data-stock="3">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=3928">Superior Healing Potion</a>
+                            <span class="stock-info">- 22 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">80<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Superior Healing Potion" 
+                            data-price="80"
+                            data-item-id="3928"
+                            data-stock="22">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=12820">Winterfall Firewater</a>
+                            <span class="stock-info">- 15 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">1<div class="gold-icon"></div></span>
+                            <span class="currency-amount">20<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Winterfall Firewater" 
+                            data-price="120"
+                            data-item-id="12820"
+                            data-stock="15">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=13446">Major Healing Potion</a>
+                            <span class="stock-info">- 25 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">1<div class="gold-icon"></div></span>
                         </div>
                         <button class="add-to-cart" 
                             data-item="Major Healing Potion" 
-                            data-price="250"
+                            data-price="100"
                             data-item-id="13446"
-                            data-stock="10">Add to Cart</button>
+                            data-stock="25">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=16971">Clamlette Surprise</a>
+                            <span class="stock-info">- 20 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">50<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Clamlette Surprise" 
+                            data-price="50"
+                            data-item-id="16971"
+                            data-stock="20">Add to Cart</button>
                     </div>
                 </div>
             </div>
@@ -482,17 +722,339 @@
                 <div class="items-grid">
                     <div class="item-row">
                         <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=3357">Liferoot</a>
+                            <a href="https://www.wowhead.com/classic/item=12808">Essence of Undeath</a>
+                            <span class="stock-info">- 1 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">2<div class="gold-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Essence of Undeath" 
+                            data-price="200"
+                            data-item-id="12808"
+                            data-stock="1">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=7078">Essence of Fire</a>
                             <span class="stock-info">- 8 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">4<div class="gold-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Essence of Fire" 
+                            data-price="400"
+                            data-item-id="7078"
+                            data-stock="8">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=7076">Essence of Earth</a>
+                            <span class="stock-info">- 4 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">3<div class="gold-icon"></div></span>
+                            <span class="currency-amount">50<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Essence of Earth" 
+                            data-price="350"
+                            data-item-id="7076"
+                            data-stock="4">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=11754">Black Diamond</a>
+                            <span class="stock-info">- 4 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">50<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Black Diamond" 
+                            data-price="50"
+                            data-item-id="11754"
+                            data-stock="4">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=10978">Small Glimmering Shard</a>
+                            <span class="stock-info">- 9 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">10<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Small Glimmering Shard" 
+                            data-price="10"
+                            data-item-id="10978"
+                            data-stock="9">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=5500">Iridescent Pearl</a>
+                            <span class="stock-info">- 2 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">1<div class="gold-icon"></div></span>
+                            <span class="currency-amount">25<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Iridescent Pearl" 
+                            data-price="125"
+                            data-item-id="5500"
+                            data-stock="2">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=12184">Raptor Flesh</a>
+                            <span class="stock-info">- 32 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">5<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Raptor Flesh" 
+                            data-price="5"
+                            data-item-id="12184"
+                            data-stock="32">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=4234">Heavy Leather</a>
+                            <span class="stock-info">- 16 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">20<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Heavy Leather" 
+                            data-price="20"
+                            data-item-id="4234"
+                            data-stock="16">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=4337">Thick Spider's Silk</a>
+                            <span class="stock-info">- 5 in stock</span>
                         </div>
                         <div class="price">
                             <span class="currency-amount">75<div class="silver-icon"></div></span>
                         </div>
                         <button class="add-to-cart" 
-                            data-item="Liferoot" 
+                            data-item="Thick Spider's Silk" 
                             data-price="75"
-                            data-item-id="3357"
+                            data-item-id="4337"
+                            data-stock="5">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=4304">Thick Leather</a>
+                            <span class="stock-info">- 7 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">30<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Thick Leather" 
+                            data-price="30"
+                            data-item-id="4304"
+                            data-stock="7">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=13926">Golden Pearl</a>
+                            <span class="stock-info">- 1 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">20<div class="gold-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Golden Pearl" 
+                            data-price="2000"
+                            data-item-id="13926"
+                            data-stock="1">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=7909">Aquamarine</a>
+                            <span class="stock-info">- 2 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">2<div class="gold-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Aquamarine" 
+                            data-price="200"
+                            data-item-id="7909"
+                            data-stock="2">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=6037">Truesilver Bar</a>
+                            <span class="stock-info">- 29 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">1<div class="gold-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Truesilver Bar" 
+                            data-price="100"
+                            data-item-id="6037"
+                            data-stock="29">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=7910">Star Ruby</a>
+                            <span class="stock-info">- 3 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">1<div class="gold-icon"></div></span>
+                            <span class="currency-amount">50<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Star Ruby" 
+                            data-price="150"
+                            data-item-id="7910"
+                            data-stock="3">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=11382">Blood of the Mountain</a>
+                            <span class="stock-info">- 1 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">1<div class="gold-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Blood of the Mountain" 
+                            data-price="100"
+                            data-item-id="11382"
+                            data-stock="1">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=12811">Righteous Orb</a>
+                            <span class="stock-info">- 1 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">10<div class="gold-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Righteous Orb" 
+                            data-price="1000"
+                            data-item-id="12811"
+                            data-stock="1">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=10561">Mithril Casing</a>
+                            <span class="stock-info">- 1 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">3<div class="gold-icon"></div></span>
+                            <span class="currency-amount">50<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Mithril Casing" 
+                            data-price="350"
+                            data-item-id="10561"
+                            data-stock="1">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=6371">Fire Oil</a>
+                            <span class="stock-info">- 29 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">75<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Fire Oil" 
+                            data-price="75"
+                            data-item-id="6371"
+                            data-stock="29">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=7070">Elemental Water</a>
+                            <span class="stock-info">- 8 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">1<div class="gold-icon"></div></span>
+                            <span class="currency-amount">50<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Elemental Water" 
+                            data-price="150"
+                            data-item-id="7070"
                             data-stock="8">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=7068">Elemental Fire</a>
+                            <span class="stock-info">- 6 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">2<div class="gold-icon"></div></span>
+                            <span class="currency-amount">50<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Elemental Fire" 
+                            data-price="250"
+                            data-item-id="7068"
+                            data-stock="6">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=7067">Elemental Earth</a>
+                            <span class="stock-info">- 3 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">1<div class="gold-icon"></div></span>
+                            <span class="currency-amount">80<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Elemental Earth" 
+                            data-price="180"
+                            data-item-id="7067"
+                            data-stock="3">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=7069">Elemental Air</a>
+                            <span class="stock-info">- 3 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">3<div class="gold-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Elemental Air" 
+                            data-price="300"
+                            data-item-id="7069"
+                            data-stock="3">Add to Cart</button>
                     </div>
                 </div>
             </div>
@@ -502,31 +1064,188 @@
                 <div class="items-grid">
                     <div class="item-row">
                         <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=16680">Beaststalker's Belt</a>
+                            <span class="stock-info">- 1 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">10<div class="gold-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Beaststalker's Belt" 
+                            data-price="1000"
+                            data-item-id="16680"
+                            data-stock="1"
+                            data-unique="true">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=16685">Magister's Belt</a>
+                            <span class="stock-info">- 1 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">10<div class="gold-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Magister's Belt" 
+                            data-price="1000"
+                            data-item-id="16685"
+                            data-stock="1"
+                            data-unique="true">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=13134">Belt of the Gladiator</a>
+                            <span class="stock-info">- 1 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">20<div class="gold-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Belt of the Gladiator" 
+                            data-price="2000"
+                            data-item-id="13134"
+                            data-stock="1"
+                            data-unique="true">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=16692">Devout Gloves</a>
+                            <span class="stock-info">- 1 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">10<div class="gold-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Devout Gloves" 
+                            data-price="1000"
+                            data-item-id="16692"
+                            data-stock="1"
+                            data-unique="true">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=13863">Runecloth Gloves</a>
+                            <span class="stock-info">- 1 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">5<div class="gold-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Runecloth Gloves" 
+                            data-price="500"
+                            data-item-id="13863"
+                            data-stock="1"
+                            data-unique="true">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
                             <a href="https://www.wowhead.com/classic/item=13102">Cassandra's Grace</a>
                             <span class="stock-info">- 1 in stock</span>
                         </div>
                         <div class="price">
-                            <span class="currency-amount">125<div class="gold-icon"></div></span>
+                            <span class="currency-amount">45<div class="gold-icon"></div></span>
                         </div>
                         <button class="add-to-cart" 
                             data-item="Cassandra's Grace" 
-                            data-price="12500"
+                            data-price="4500"
                             data-item-id="13102"
-                            data-stock="1">Add to Cart</button>
+                            data-stock="1"
+                            data-unique="true">Add to Cart</button>
                     </div>
+                </div>
+            </div>
+
+            <div class="category">
+                <h2 class="category-title">Patterns and Recipes</h2>
+                <div class="items-grid">
                     <div class="item-row">
                         <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=16696">Devout Belt</a>
+                            <a href="https://www.wowhead.com/classic/item=11206">Formula: Enchant Cloak - Lesser Agility</a>
                             <span class="stock-info">- 1 in stock</span>
                         </div>
                         <div class="price">
-                            <span class="currency-amount">85<div class="gold-icon"></div></span>
+                            <span class="currency-amount">1<div class="gold-icon"></div></span>
                         </div>
                         <button class="add-to-cart" 
-                            data-item="Devout Belt" 
-                            data-price="8500"
-                            data-item-id="16696"
-                            data-stock="1">Add to Cart</button>
+                            data-item="Formula: Enchant Cloak - Lesser Agility" 
+                            data-price="100"
+                            data-item-id="11206"
+                            data-stock="1"
+                            data-unique="true">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=15752">Pattern: Living Leggings</a>
+                            <span class="stock-info">- 1 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">10<div class="gold-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Pattern: Living Leggings" 
+                            data-price="1000"
+                            data-item-id="15752"
+                            data-stock="1"
+                            data-unique="true">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=5642">Recipe: Free Action Potion</a>
+                            <span class="stock-info">- 1 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">5<div class="gold-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Recipe: Free Action Potion" 
+                            data-price="500"
+                            data-item-id="5642"
+                            data-stock="1"
+                            data-unique="true">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category">
+                <h2 class="category-title">Other</h2>
+                <div class="items-grid">
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=11734">Libram of Tenacity</a>
+                            <span class="stock-info">- 1 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">8<div class="gold-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Libram of Tenacity" 
+                            data-price="800"
+                            data-item-id="11734"
+                            data-stock="1"
+                            data-unique="true">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=11736">Libram of Resilience</a>
+                            <span class="stock-info">- 1 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">8<div class="gold-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Libram of Resilience" 
+                            data-price="800"
+                            data-item-id="11736"
+                            data-stock="1"
+                            data-unique="true">Add to Cart</button>
                     </div>
                 </div>
             </div>
