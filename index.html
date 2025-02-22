@@ -410,6 +410,35 @@
                 position: static;
             }
         }
+
+        .search-container {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 10px;
+            background-color: var(--bg-light);
+            border: 1px solid var(--wow-border);
+            color: #FFFFFF;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--wow-gold);
+            box-shadow: 0 0 5px rgba(255, 215, 0, 0.2);
+        }
+
+        .no-results {
+            color: #888;
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -417,6 +446,13 @@
         <div class="main-content">
             <div class="header">
                 <h1>Nymnsen's Trinkets & Curiosities</h1>
+            </div>
+
+            <div class="search-container">
+                <input type="text" 
+                    class="search-input" 
+                    placeholder="Search items..." 
+                    oninput="filterItems(this.value)">
             </div>
 
             <div class="category">
@@ -665,6 +701,43 @@
         function removeItem(item) {
             delete cart[item];
             updateCart();
+        }
+
+        function filterItems(searchTerm) {
+            searchTerm = searchTerm.toLowerCase();
+            const categories = document.querySelectorAll('.category');
+            let hasVisibleItems = false;
+
+            categories.forEach(category => {
+                const items = category.querySelectorAll('.item-row');
+                let categoryHasVisibleItems = false;
+
+                items.forEach(item => {
+                    const itemName = item.querySelector('a').textContent.toLowerCase();
+                    const isVisible = itemName.includes(searchTerm);
+                    item.style.display = isVisible ? '' : 'none';
+                    if (isVisible) {
+                        categoryHasVisibleItems = true;
+                        hasVisibleItems = true;
+                    }
+                });
+
+                // Hide empty categories
+                category.style.display = categoryHasVisibleItems ? '' : 'none';
+            });
+
+            // Show "no results" message if needed
+            let noResultsMsg = document.querySelector('.no-results');
+            if (!hasVisibleItems) {
+                if (!noResultsMsg) {
+                    noResultsMsg = document.createElement('div');
+                    noResultsMsg.className = 'no-results';
+                    noResultsMsg.textContent = 'No items found';
+                    document.querySelector('.main-content').appendChild(noResultsMsg);
+                }
+            } else if (noResultsMsg) {
+                noResultsMsg.remove();
+            }
         }
     </script>
 </body>
