@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nymnsen's Trinkets & Curiosities</title>
+    <script>const whTooltips = {colorLinks: true, iconizeLinks: true, renameLinks: true};</script>
+    <script src="https://wow.zamimg.com/js/tooltips.js"></script>
+    <style>
+        :root {
+            --wow-gold: #FFD700;
+            --wow-border: #4A4A4A;
+            --bg-dark: #2B2B2B;
+            --bg-light: #3D3D3D;
+            --max-width: 1200px;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1A1A1A;
+            color: #FFFFFF;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: var(--max-width);
+            display: flex;
+            gap: 20px;
+        }
+
+        .main-content {
+            flex: 1;
+            max-width: calc(var(--max-width) - 400px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            border: 2px solid var(--wow-border);
+            padding: 20px;
+            background: linear-gradient(to bottom, #3D3D3D, #2B2B2B);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .header:hover {
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+        }
+
+        h1 {
+            color: var(--wow-gold);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin: 0;
+        }
+
+        .category-title {
+            color: var(--wow-gold);
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--wow-border);
+            padding-bottom: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .category-title::after {
+            content: '▼';
+            font-size: 0.8em;
+            transition: transform 0.3s ease;
+        }
+
+        .category-title.collapsed::after {
+            transform: rotate(-90deg);
+        }
+
+        .items-grid {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 20px;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            overflow: hidden;
+            max-height: 1000px;
+            opacity: 1;
+        }
+
+        .items-grid.collapsed {
+            max-height: 0;
+            opacity: 0;
+            margin-bottom: 0;
+        }
+
+        .category {
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .category:nth-child(2) { animation-delay: 0.2s; }
+        .category:nth-child(3) { animation-delay: 0.4s; }
+
+        .item-row {
+            display: grid;
+            grid-template-columns: 1fr 100px auto;
+            align-items: center;
+            padding: 10px;
+            border-radius: 4px;
+            gap: 10px;
+            transition: transform 0.2s ease, background-color 0.3s ease;
+        }
+
+        .item-row:hover {
+            transform: translateX(5px);
+        }
+
+        .item-row:nth-child(odd) {
+            background-color: var(--bg-dark);
+        }
+
+        .item-row:nth-child(even) {
+            background-color: var(--bg-light);
+        }
+
+        .price {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            font-weight: bold;
+            color: var(--wow-gold);
+            justify-content: flex-end;
+            width: 100px;
+        }
+
+        .price .currency-amount {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            white-space: nowrap;
+        }
+
+        .currency-separator {
+            margin: 0 1px;
+            color: #888;
+        }
+
+        .gold-icon {
+            width: 14px;
+            height: 14px;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%23FFD700" stroke="%23B8860B" stroke-width="5"/><circle cx="50" cy="50" r="35" fill="%23DAA520"/></svg>');
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        .silver-icon {
+            width: 14px;
+            height: 14px;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%23C0C0C0" stroke="%23808080" stroke-width="5"/><circle cx="50" cy="50" r="35" fill="%23A0A0A0"/></svg>');
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        .add-to-cart {
+            background-color: #4A4A4A;
+            border: 1px solid var(--wow-gold);
+            color: var(--wow-gold);
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .add-to-cart:hover {
+            background-color: var(--wow-gold);
+            color: #000000;
+            transform: scale(1.05);
+        }
+
+        .cart {
+            width: 400px;
+            background-color: var(--bg-dark);
+            padding: 20px;
+            border: 2px solid var(--wow-border);
+            border-radius: 8px;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+            box-sizing: border-box;
+        }
+
+        .cart-title {
+            color: var(--wow-gold);
+            margin-top: 0;
+        }
+
+        .cart-items {
+            margin-bottom: 15px;
+        }
+
+        .cart-item {
+            padding: 5px 0;
+            animation: slideIn 0.3s ease;
+            display: grid;
+            grid-template-columns: 30px auto 60px 120px;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cart-item-name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-right: 10px;
+        }
+
+        .quantity-input {
+            width: 55px;
+            padding: 2px 5px;
+            background-color: var(--bg-light);
+            border: 1px solid var(--wow-border);
+            color: #FFFFFF;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .quantity-input:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .remove-item {
+            color: #ff4444;
+            cursor: pointer;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            border: 1px solid #ff4444;
+            border-radius: 4px;
+            background: none;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        .remove-item:hover {
+            background-color: #ff4444;
+            color: #000000;
+        }
+
+        .cart-item-price {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 4px;
+            width: 120px;
+        }
+
+        .cart-item-price .currency-amount {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            white-space: nowrap;
+        }
+
+        .currency-separator {
+            margin: 0 1px;
+            color: #888;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .cart-total {
+            border-top: 1px solid var(--wow-border);
+            padding-top: 10px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .cart-total .currency-display {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            min-width: 120px;
+            justify-content: flex-end;
+        }
+
+        .cart-total .currency-display .currency-amount {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            white-space: nowrap;
+        }
+
+        .copy-instructions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        .help-icon {
+            cursor: help;
+            background-color: var(--wow-border);
+            color: var(--wow-gold);
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .help-tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .help-tooltip .tooltip-text {
+            visibility: hidden;
+            background-color: #000;
+            color: #fff;
+            text-align: left;
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid var(--wow-gold);
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: max-content;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .help-tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .copy-text {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: var(--bg-light);
+            border: 1px solid var(--wow-border);
+            color: #FFFFFF;
+            border-radius: 4px;
+            resize: vertical;
+            min-height: 120px;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        .stock-info {
+            color: #888;
+            font-size: 0.9em;
+            margin-left: 8px;
+        }
+
+        .item-name-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .out-of-stock {
+            opacity: 0.5;
+        }
+
+        .out-of-stock .add-to-cart {
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .main-content {
+                max-width: 100%;
+            }
+
+            .cart {
+                width: auto;
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-content">
+            <div class="header">
+                <h1>Nymnsen's Trinkets & Curiosities</h1>
+            </div>
+
+            <div class="category">
+                <h2 class="category-title">Consumables</h2>
+                <div class="items-grid">
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=13446">Major Healing Potion</a>
+                            <span class="stock-info">- 10 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">2<div class="gold-icon"></div></span>
+                            <span class="currency-separator">.</span>
+                            <span class="currency-amount">50<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Major Healing Potion" 
+                            data-price="250"
+                            data-item-id="13446"
+                            data-stock="10">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category">
+                <h2 class="category-title">Reagents</h2>
+                <div class="items-grid">
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=3357">Liferoot</a>
+                            <span class="stock-info">- 8 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">75<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Liferoot" 
+                            data-price="75"
+                            data-item-id="3357"
+                            data-stock="8">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category">
+                <h2 class="category-title">Items</h2>
+                <div class="items-grid">
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=13102">Cassandra's Grace</a>
+                            <span class="stock-info">- 1 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">125<div class="gold-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Cassandra's Grace" 
+                            data-price="12500"
+                            data-item-id="13102"
+                            data-stock="1">Add to Cart</button>
+                    </div>
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=16696">Devout Belt</a>
+                            <span class="stock-info">- 1 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">85<div class="gold-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Devout Belt" 
+                            data-price="8500"
+                            data-item-id="16696"
+                            data-stock="1">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cart">
+            <h3 class="cart-title">Shopping Cart</h3>
+            <div class="cart-items"></div>
+            <div class="cart-total">Total: <div class="currency-display">0</div></div>
+            <div class="copy-instructions">
+                <span>Copy and send to Nymnsen</span>
+                <div class="help-tooltip">
+                    <div class="help-icon">?</div>
+                    <div class="tooltip-text">
+                        1. Copy this message<br>
+                        2. Mail it to Nymnsen in-game
+                    </div>
+                </div>
+            </div>
+            <textarea class="copy-text" readonly rows="4" placeholder="Your shopping list will appear here..."></textarea>
+        </div>
+    </div>
+
+    <script>
+        const cart = {};
+        let total = 0;
+
+        // Add category collapse functionality
+        document.querySelectorAll('.category-title').forEach(title => {
+            title.addEventListener('click', () => {
+                const itemsGrid = title.nextElementSibling;
+                title.classList.toggle('collapsed');
+                itemsGrid.classList.toggle('collapsed');
+            });
+        });
+
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.dataset.item;
+                const price = parseInt(button.dataset.price);
+                const itemId = button.dataset.itemId;
+                const stock = parseInt(button.dataset.stock) || 0;
+                
+                // List of unique items (can only have quantity of 1)
+                const uniqueItems = ['Cassandra\'s Grace', 'Devout Belt'];
+                const isUnique = uniqueItems.includes(item);
+                
+                if (!cart[item]) {
+                    cart[item] = { 
+                        quantity: 0, 
+                        price: price,
+                        itemId: itemId,
+                        isUnique: isUnique,
+                        maxStock: stock
+                    };
+                }
+                
+                // Check stock limit
+                if (cart[item].quantity < cart[item].maxStock) {
+                    // Don't increment if it's a unique item that's already in cart
+                    if (!isUnique || cart[item].quantity === 0) {
+                        cart[item].quantity = (cart[item].quantity || 0) + 1;
+                        updateCart();
+                    }
+                }
+
+                // Add click animation
+                button.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    button.style.transform = '';
+                }, 100);
+            });
+        });
+
+        function formatPrice(priceInSilver) {
+            const gold = Math.floor(priceInSilver / 100);
+            const silver = priceInSilver % 100;
+            let result = '';
+            
+            if (gold > 0) {
+                result += `<span class="currency-amount">${gold}<div class="gold-icon"></div></span>`;
+                if (silver > 0) {
+                    result += `<span class="currency-amount">${silver}<div class="silver-icon"></div></span>`;
+                }
+            } else {
+                result += `<span class="currency-amount">${silver}<div class="silver-icon"></div></span>`;
+            }
+            return result;
+        }
+
+        function formatPriceText(priceInSilver) {
+            const gold = Math.floor(priceInSilver / 100);
+            const silver = priceInSilver % 100;
+            
+            if (gold > 0) {
+                if (silver > 0) {
+                    return `${gold}g ${silver}s`;
+                }
+                return `${gold}g`;
+            }
+            return `${silver}s`;
+        }
+
+        function updateCart() {
+            const cartItems = document.querySelector('.cart-items');
+            const cartTotal = document.querySelector('.cart-total');
+            const copyText = document.querySelector('.copy-text');
+            
+            total = 0;
+            cartItems.innerHTML = '';
+            
+            for (const [item, data] of Object.entries(cart)) {
+                if (data.quantity > 0) {
+                    const itemTotal = data.price * data.quantity;
+                    total += itemTotal;
+                    const escapedItem = item.replace(/'/g, "\\'").replace(/"/g, '\\"');
+                    
+                    cartItems.innerHTML += `
+                        <div class="cart-item">
+                            <button class="remove-item" onclick="removeItem('${escapedItem}')">×</button>
+                            <div class="cart-item-name">
+                                <a href="https://www.wowhead.com/classic/item=${data.itemId}">${item}</a>
+                            </div>
+                            <input type="number" 
+                                class="quantity-input" 
+                                value="${data.quantity}" 
+                                min="0" 
+                                max="${data.isUnique ? 1 : data.maxStock}"
+                                ${data.isUnique ? 'disabled' : ''}
+                                data-item="${escapedItem}"
+                                onchange="updateItemQuantity('${escapedItem}', this.value)">
+                            <div class="cart-item-price">${formatPrice(itemTotal)}</div>
+                        </div>
+                    `;
+                }
+            }
+            
+            // Refresh Wowhead tooltips after updating cart
+            if (typeof $WowheadPower !== 'undefined') {
+                $WowheadPower.refreshLinks();
+            }
+            
+            cartTotal.innerHTML = `Total: <div class="currency-display">${formatPrice(total)}</div>`;
+            
+            // Create copy-paste text
+            let mailText = "Greetings Nymnsen! Here's my order:\n";
+            for (const [item, data] of Object.entries(cart)) {
+                if (data.quantity > 0) {
+                    const itemTotal = data.price * data.quantity;
+                    mailText += `${data.quantity}x ${item}, ${formatPriceText(data.price)} each - ${formatPriceText(itemTotal)} total\n`;
+                }
+            }
+            mailText += `\nTotal: ${formatPriceText(total)}`;
+            copyText.value = mailText;
+        }
+
+        function updateItemQuantity(item, quantity) {
+            if (!cart[item]) return;
+            
+            quantity = parseInt(quantity) || 0;
+            if (quantity <= 0) {
+                delete cart[item];
+            } else {
+                // Don't allow quantity changes for unique items or exceeding stock
+                if (!cart[item].isUnique) {
+                    cart[item].quantity = Math.min(quantity, cart[item].maxStock);
+                }
+            }
+            updateCart();
+        }
+
+        function removeItem(item) {
+            delete cart[item];
+            updateCart();
+        }
+    </script>
+</body>
+</html>
