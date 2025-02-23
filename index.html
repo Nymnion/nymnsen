@@ -498,6 +498,30 @@
             padding: 20px;
             font-style: italic;
         }
+
+        .search-input-wrapper {
+            position: relative;
+            flex: 1;
+            display: flex;
+        }
+
+        .clear-search {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 20px;
+            padding: 0 5px;
+            display: none;
+        }
+
+        .clear-search:hover {
+            color: var(--text-light);
+        }
     </style>
 </head>
 <body>
@@ -508,10 +532,13 @@
             </div>
 
             <div class="search-container">
-                <input type="text" 
-                    class="search-input" 
-                    placeholder="Search items..." 
-                    oninput="filterItems(this.value)">
+                <div class="search-input-wrapper">
+                    <input type="text" 
+                        class="search-input" 
+                        placeholder="Search items..." 
+                        oninput="filterItems(this.value)">
+                    <button class="clear-search" onclick="clearSearch()" style="display: none;">×</button>
+                </div>
             </div>
 
             <div class="category">
@@ -530,11 +557,11 @@
                         </div>
                         <div class="price">
                             <span class="currency-amount">1<div class="gold-icon"></div></span>
-                            <span class="currency-amount">80<div class="silver-icon"></div></span>
+                            <span class="currency-amount">50<div class="silver-icon"></div></span>
                         </div>
                         <button class="add-to-cart" 
                             data-item="Lesser Invisibility Potion" 
-                            data-price="180"
+                            data-price="150"
                             data-item-id="3823"
                             data-stock="3">Add to Cart</button>
                     </div>
@@ -545,11 +572,11 @@
                             <span class="stock-info">- 22 in stock</span>
                         </div>
                         <div class="price">
-                            <span class="currency-amount">80<div class="silver-icon"></div></span>
+                            <span class="currency-amount">40<div class="silver-icon"></div></span>
                         </div>
                         <button class="add-to-cart" 
                             data-item="Superior Healing Potion" 
-                            data-price="80"
+                            data-price="40"
                             data-item-id="3928"
                             data-stock="22">Add to Cart</button>
                     </div>
@@ -561,11 +588,10 @@
                         </div>
                         <div class="price">
                             <span class="currency-amount">1<div class="gold-icon"></div></span>
-                            <span class="currency-amount">20<div class="silver-icon"></div></span>
                         </div>
                         <button class="add-to-cart" 
                             data-item="Winterfall Firewater" 
-                            data-price="120"
+                            data-price="100"
                             data-item-id="12820"
                             data-stock="15">Add to Cart</button>
                     </div>
@@ -659,6 +685,81 @@
                             data-item-id="7974"
                             data-stock="100">Add to Cart</button>
                     </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=118">Minor Healing Potion</a>
+                            <span class="stock-info">- 40 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">10<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Minor Healing Potion" 
+                            data-price="10"
+                            data-item-id="118"
+                            data-stock="40">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=929">Healing Potion</a>
+                            <span class="stock-info">- 2 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">15<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Healing Potion" 
+                            data-price="15"
+                            data-item-id="929"
+                            data-stock="2">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=1710">Greater Healing Potion</a>
+                            <span class="stock-info">- 5 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">20<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Greater Healing Potion" 
+                            data-price="20"
+                            data-item-id="1710"
+                            data-stock="5">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=21217">Sagefish Delight</a>
+                            <span class="stock-info">- 20 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">50<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Sagefish Delight" 
+                            data-price="50"
+                            data-item-id="21217"
+                            data-stock="20">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=12210">Roast Raptor</a>
+                            <span class="stock-info">- 20 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">30<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Roast Raptor" 
+                            data-price="30"
+                            data-item-id="12210"
+                            data-stock="20">Add to Cart</button>
+                    </div>
                 </div>
             </div>
 
@@ -671,11 +772,11 @@
                             <span class="stock-info">- 26 in stock</span>
                         </div>
                         <div class="price">
-                            <span class="currency-amount">50<div class="silver-icon"></div></span>
+                            <span class="currency-amount">40<div class="silver-icon"></div></span>
                         </div>
                         <button class="add-to-cart" 
                             data-item="Swiftthistle" 
-                            data-price="50"
+                            data-price="40"
                             data-item-id="2452"
                             data-stock="26">Add to Cart</button>
                     </div>
@@ -686,11 +787,11 @@
                             <span class="stock-info">- 40 in stock</span>
                         </div>
                         <div class="price">
-                            <span class="currency-amount">30<div class="silver-icon"></div></span>
+                            <span class="currency-amount">20<div class="silver-icon"></div></span>
                         </div>
                         <button class="add-to-cart" 
                             data-item="Briarthorn" 
-                            data-price="30"
+                            data-price="20"
                             data-item-id="2450"
                             data-stock="40">Add to Cart</button>
                     </div>
@@ -701,11 +802,11 @@
                             <span class="stock-info">- 30 in stock</span>
                         </div>
                         <div class="price">
-                            <span class="currency-amount">20<div class="silver-icon"></div></span>
+                            <span class="currency-amount">10<div class="silver-icon"></div></span>
                         </div>
                         <button class="add-to-cart" 
                             data-item="Mageroyal" 
-                            data-price="20"
+                            data-price="10"
                             data-item-id="785"
                             data-stock="30">Add to Cart</button>
                     </div>
@@ -746,11 +847,11 @@
                             <span class="stock-info">- 7 in stock</span>
                         </div>
                         <div class="price">
-                            <span class="currency-amount">40<div class="silver-icon"></div></span>
+                            <span class="currency-amount">30<div class="silver-icon"></div></span>
                         </div>
                         <button class="add-to-cart" 
                             data-item="Stranglekelp" 
-                            data-price="40"
+                            data-price="30"
                             data-item-id="3820"
                             data-stock="7">Add to Cart</button>
                     </div>
@@ -761,13 +862,28 @@
                             <span class="stock-info">- 11 in stock</span>
                         </div>
                         <div class="price">
-                            <span class="currency-amount">40<div class="silver-icon"></div></span>
+                            <span class="currency-amount">30<div class="silver-icon"></div></span>
                         </div>
                         <button class="add-to-cart" 
                             data-item="Wild Steelbloom" 
-                            data-price="40"
+                            data-price="30"
                             data-item-id="3355"
                             data-stock="11">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=3357">Liferoot</a>
+                            <span class="stock-info">- 8 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">50<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Liferoot" 
+                            data-price="50"
+                            data-item-id="3357"
+                            data-stock="8">Add to Cart</button>
                     </div>
                 </div>
             </div>
@@ -925,21 +1041,6 @@
                             data-price="150"
                             data-item-id="7910"
                             data-stock="3">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=11382">Blood of the Mountain</a>
-                            <span class="stock-info">- 1 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">1<div class="gold-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Blood of the Mountain" 
-                            data-price="100"
-                            data-item-id="11382"
-                            data-stock="1">Add to Cart</button>
                     </div>
 
                     <div class="item-row">
@@ -1171,6 +1272,21 @@
                             data-item-id="12434"
                             data-stock="7">Add to Cart</button>
                     </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=6358">Oily Blackmouth</a>
+                            <span class="stock-info">- 7 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">20<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Oily Blackmouth" 
+                            data-price="20"
+                            data-item-id="6358"
+                            data-stock="7">Add to Cart</button>
+                    </div>
                 </div>
             </div>
 
@@ -1263,11 +1379,11 @@
                             <span class="stock-info">- 1 in stock</span>
                         </div>
                         <div class="price">
-                            <span class="currency-amount">80<div class="gold-icon"></div></span>
+                            <span class="currency-amount">75<div class="gold-icon"></div></span>
                         </div>
                         <button class="add-to-cart" 
                             data-item="Cassandra's Grace" 
-                            data-price="8000"
+                            data-price="7500"
                             data-item-id="13102"
                             data-stock="1"
                             data-unique="true">Add to Cart</button>
@@ -1426,6 +1542,102 @@
                             data-stock="1"
                             data-unique="true">Add to Cart</button>
                     </div>
+                </div>
+            </div>
+
+            <div class="category">
+                <h2 class="category-title">Cloth</h2>
+                <div class="items-grid">
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=4305">Bolt of Silk Cloth</a>
+                            <span class="stock-info">- 5 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">40<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Bolt of Silk Cloth" 
+                            data-price="40"
+                            data-item-id="4305"
+                            data-stock="5">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=4338">Mageweave Cloth</a>
+                            <span class="stock-info">- 38 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">15<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Mageweave Cloth" 
+                            data-price="15"
+                            data-item-id="4338"
+                            data-stock="38">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=4339">Bolt of Mageweave</a>
+                            <span class="stock-info">- 4 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">80<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Bolt of Mageweave" 
+                            data-price="80"
+                            data-item-id="4339"
+                            data-stock="4">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=14048">Bolt of Runecloth</a>
+                            <span class="stock-info">- 25 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">1<div class="gold-icon"></div></span>
+                            <span class="currency-amount">50<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Bolt of Runecloth" 
+                            data-price="150"
+                            data-item-id="14048"
+                            data-stock="25">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=2997">Bolt of Woolen Cloth</a>
+                            <span class="stock-info">- 5 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">25<div class="silver-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Bolt of Woolen Cloth" 
+                            data-price="25"
+                            data-item-id="2997"
+                            data-stock="5">Add to Cart</button>
+                    </div>
+
+                    <div class="item-row">
+                        <div class="item-name-container">
+                            <a href="https://www.wowhead.com/classic/item=14256">Felcloth</a>
+                            <span class="stock-info">- 4 in stock</span>
+                        </div>
+                        <div class="price">
+                            <span class="currency-amount">5<div class="gold-icon"></div></span>
+                        </div>
+                        <button class="add-to-cart" 
+                            data-item="Felcloth" 
+                            data-price="500"
+                            data-item-id="14256"
+                            data-stock="4">Add to Cart</button>
+                    </div>
 
                     <div class="item-row">
                         <div class="item-name-container">
@@ -1580,100 +1792,109 @@
                 category.style.display = categoryHasVisibleItems ? '' : 'none';
             });
 
-            // Show "no results" message if needed
-            let noResultsMsg = document.querySelector('.no-results');
-            if (!hasVisibleItems) {
-                if (!noResultsMsg) {
-                    noResultsMsg = document.createElement('div');
-                    noResultsMsg.className = 'no-results';
-                    noResultsMsg.textContent = 'No items found';
-                    document.querySelector('.main-content').appendChild(noResultsMsg);
-                }
-            } else if (noResultsMsg) {
-                noResultsMsg.remove();
+        // Show "no results" message if needed
+        let noResultsMsg = document.querySelector('.no-results');
+        if (!hasVisibleItems) {
+            if (!noResultsMsg) {
+                noResultsMsg = document.createElement('div');
+                noResultsMsg.className = 'no-results';
+                noResultsMsg.textContent = 'No items found';
+                document.querySelector('.main-content').appendChild(noResultsMsg);
             }
-        }, 300);  // Wait 300ms before executing search
+        } else if (noResultsMsg) {
+            noResultsMsg.remove();
+        }
+    }, 300);  // Wait 300ms before executing search
 
-        // Update the search input to use debounced function
-        document.querySelector('.search-input').addEventListener('input', (e) => {
-            debouncedFilter(e.target.value);
-        });
+    function clearSearch() {
+        const searchInput = document.querySelector('.search-input');
+        searchInput.value = '';
+        document.querySelector('.clear-search').style.display = 'none';
+        debouncedFilter('');
+    }
 
-        // Optimize cart updates
-        function updateCart() {
-            const cartItems = document.querySelector('.cart-items');
-            const cartTotal = document.querySelector('.cart-total');
-            const copyText = document.querySelector('.copy-text');
-            let cartHTML = '';
-            let total = 0;
-            
-            // Build cart HTML in memory instead of doing multiple DOM updates
-            for (const [item, data] of Object.entries(cart)) {
-                if (data.quantity > 0) {
-                    const itemTotal = data.price * data.quantity;
-                    total += itemTotal;
-                    const escapedItem = item.replace(/'/g, "\\'").replace(/"/g, '\\"');
-                    
-                    cartHTML += `
-                        <div class="cart-item">
-                            <button class="remove-item" onclick="removeItem('${escapedItem}')">×</button>
-                            <div class="cart-item-name">
-                                <a href="https://www.wowhead.com/classic/item=${data.itemId}">${item}</a>
-                            </div>
-                            <input type="number" 
-                                class="quantity-input" 
-                                value="${data.quantity}" 
-                                min="0" 
-                                max="${data.isUnique ? 1 : data.maxStock}"
-                                ${data.isUnique ? 'disabled' : ''}
-                                data-item="${escapedItem}"
-                                onchange="updateItemQuantity('${escapedItem}', this.value)">
-                            <div class="cart-item-price">${formatPrice(itemTotal)}</div>
+    // Modify the existing search input listener
+    document.querySelector('.search-input').addEventListener('input', (e) => {
+        const clearButton = document.querySelector('.clear-search');
+        clearButton.style.display = e.target.value ? 'block' : 'none';
+        debouncedFilter(e.target.value);
+    });
+
+    // Optimize cart updates
+    function updateCart() {
+        const cartItems = document.querySelector('.cart-items');
+        const cartTotal = document.querySelector('.cart-total');
+        const copyText = document.querySelector('.copy-text');
+        let cartHTML = '';
+        let total = 0;
+        
+        // Build cart HTML in memory instead of doing multiple DOM updates
+        for (const [item, data] of Object.entries(cart)) {
+            if (data.quantity > 0) {
+                const itemTotal = data.price * data.quantity;
+                total += itemTotal;
+                const escapedItem = item.replace(/'/g, "\\'").replace(/"/g, '\\"');
+                
+                cartHTML += `
+                    <div class="cart-item">
+                        <button class="remove-item" onclick="removeItem('${escapedItem}')">×</button>
+                        <div class="cart-item-name">
+                            <a href="https://www.wowhead.com/classic/item=${data.itemId}">${item}</a>
                         </div>
-                    `;
-                }
-            }
-            
-            // Update DOM once
-            cartItems.innerHTML = cartHTML;
-            cartTotal.innerHTML = `Total: <div class="currency-display">${formatPrice(total)}</div>`;
-            
-            // Create copy-paste text
-            let mailText = "Greetings Nymnsen! Here's my order:\n";
-            for (const [item, data] of Object.entries(cart)) {
-                if (data.quantity > 0) {
-                    const itemTotal = data.price * data.quantity;
-                    mailText += `${data.quantity}x ${item}, ${formatPriceText(data.price)} each - ${formatPriceText(itemTotal)} total\n`;
-                }
-            }
-            mailText += `\nTotal: ${formatPriceText(total)}`;
-            copyText.value = mailText;
-
-            // Only refresh Wowhead tooltips once after all updates are done
-            if (typeof $WowheadPower !== 'undefined') {
-                setTimeout(() => $WowheadPower.refreshLinks(), 100);
+                        <input type="number" 
+                            class="quantity-input" 
+                            value="${data.quantity}" 
+                            min="0" 
+                            max="${data.isUnique ? 1 : data.maxStock}"
+                            ${data.isUnique ? 'disabled' : ''}
+                            data-item="${escapedItem}"
+                            onchange="updateItemQuantity('${escapedItem}', this.value)">
+                        <div class="cart-item-price">${formatPrice(itemTotal)}</div>
+                    </div>
+                `;
             }
         }
-
-        function updateItemQuantity(item, quantity) {
-            if (!cart[item]) return;
-            
-            quantity = parseInt(quantity) || 0;
-            if (quantity <= 0) {
-                delete cart[item];
-            } else {
-                // Don't allow quantity changes for unique items or exceeding stock
-                if (!cart[item].isUnique) {
-                    cart[item].quantity = Math.min(quantity, cart[item].maxStock);
-                }
+        
+        // Update DOM once
+        cartItems.innerHTML = cartHTML;
+        cartTotal.innerHTML = `Total: <div class="currency-display">${formatPrice(total)}</div>`;
+        
+        // Create copy-paste text
+        let mailText = "Greetings Nymnsen! Here's my order:\n";
+        for (const [item, data] of Object.entries(cart)) {
+            if (data.quantity > 0) {
+                const itemTotal = data.price * data.quantity;
+                mailText += `${data.quantity}x ${item}, ${formatPriceText(data.price)} each - ${formatPriceText(itemTotal)} total\n`;
             }
-            updateCart();
         }
+        mailText += `\nTotal: ${formatPriceText(total)}`;
+        copyText.value = mailText;
 
-        function removeItem(item) {
+        // Only refresh Wowhead tooltips once after all updates are done
+        if (typeof $WowheadPower !== 'undefined') {
+            setTimeout(() => $WowheadPower.refreshLinks(), 100);
+        }
+    }
+
+    function updateItemQuantity(item, quantity) {
+        if (!cart[item]) return;
+        
+        quantity = parseInt(quantity) || 0;
+        if (quantity <= 0) {
             delete cart[item];
-            updateCart();
+        } else {
+            // Don't allow quantity changes for unique items or exceeding stock
+            if (!cart[item].isUnique) {
+                cart[item].quantity = Math.min(quantity, cart[item].maxStock);
+            }
         }
+        updateCart();
+    }
+
+    function removeItem(item) {
+        delete cart[item];
+        updateCart();
+    }
     </script>
 </body>
 </html>
