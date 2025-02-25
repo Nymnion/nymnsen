@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nymnsen's Inventory Manager</title>
+    <style>
+        :root {
+            --primary-color: #4e2a84;
+            --secondary-color: #8661c5;
+            --background-color: #f5f5f5;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --common-color: #333333;
+            --uncommon-color: #1eff00;
+            --rare-color: #0070dd;
+            --epic-color: #a335ee;
+            --legendary-color: #ff8000;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .panel {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .panel h2 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .flex-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .input-section, .output-section {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+            font-family: monospace;
+        }
+
+        .button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .button-secondary {
+            background-color: #6c757d;
+        }
+
+        .categories-container {
+            margin-top: 20px;
+        }
+
+        .category {
+            margin-bottom: 30px;
+        }
+
+        .category-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .category-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .category.active .category-content {
+            max-height: 2000px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .item-name {
+            font-weight: bold;
+        }
+
+        .common { color: var(--common-color); }
+        .uncommon { color: var(--uncommon-color); }
+        .rare { color: var(--rare-color); }
+        .epic { color: var(--epic-color); }
+        .legendary { color: var(--legendary-color); }
+
+        .item-row {
+            background-color: #f9f9f9;
+        }
+
+        .price-input {
+            width: 80px;
+            display: inline-block;
+        }
+
+        .price-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .gold-icon, .silver-icon {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+        }
+
+        .gold-icon {
+            background-color: #ffd700;
+            border-radius: 50%;
+        }
+
+        .silver-icon {
+            background-color: #c0c0c0;
+            border-radius: 50%;
+        }
+
+        .remove-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .remove-btn:hover {
+            background-color: #bd2130;
+        }
+
+        .actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .info {
+            color: #6c757d;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        #statusMessage {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Nymnsen's Inventory Manager</h1>
+            <p>Edit your inventory, set prices, and export to your shop</p>
+        </header>
+
+        <div class="panel">
+            <h2>Import Inventory Data</h2>
+            <div class="input-group">
+                <label for="inventoryInput">Paste your inventory data here:</label>
+                <textarea id="inventoryInput" placeholder="Paste your inventory data here..."></textarea>
+                <p class="info">The data should be in the format exported by your WoW addon.</p>
+            </div>
+            <button id="loadInventoryBtn" class="button">Load Inventory</button>
+            <div id="statusMessage"></div>
+        </div>
+
+        <div id="inventoryEditor" class="panel" style="display: none;">
+            <h2>Edit Inventory</h2>
+            <div class="input-group">
+                <label for="defaultGold">Set default price for all items:</label>
+                <div class="price-container">
+                    <input type="number" id="defaultGold" class="price-input" min="0" value="0"> 
+                    <span class="gold-icon" title="Gold"></span>
+                    <input type="number" id="defaultSilver" class="price-input" min="0" max="99" value="0"> 
+                    <span class="silver-icon" title="Silver"></span>
+                    <button id="applyDefaultPrice" class="button">Apply to All</button>
+                </div>
+            </div>
+            
+            <div class="categories-container" id="categoriesContainer">
+                <!-- Categories will be populated here -->
+            </div>
+
+            <div class="actions">
+                <button id="exportBtn" class="button">Export Updated Inventory</button>
+                <button id="clearBtn" class="button button-secondary">Clear All</button>
+            </div>
+        </div>
+
+        <div id="exportPanel" class="panel" style="display: none;">
+            <h2>Export Updated Inventory</h2>
+            <div class="flex-container">
+                <div class="output-section">
+                    <textarea id="exportOutput" readonly></textarea>
+                    <button id="copyBtn" class="button">Copy to Clipboard</button>
+                    <p class="info">This is your updated inventory data. Copy this and save it to a file for your shop website.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Utility functions
+        function formatQuality(quality) {
+            return quality.toLowerCase();
+        }
+
+        function getQualityClass(quality) {
+            return formatQuality(quality);
+        }
+
+        // Main functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadInventoryBtn = document.getElementById('loadInventoryBtn');
+            const inventoryInput = document.getElementById('inventoryInput');
+            const categoriesContainer = document.getElementById('categoriesContainer');
+            const inventoryEditor = document.getElementById('inventoryEditor');
+            const exportBtn = document.getElementById('exportBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const exportPanel = document.getElementById('exportPanel');
+            const exportOutput = document.getElementById('exportOutput');
+            const copyBtn = document.getElementById('copyBtn');
+            const statusMessage = document.getElementById('statusMessage');
+            const defaultGold = document.getElementById('defaultGold');
+            const defaultSilver = document.getElementById('defaultSilver');
+            const applyDefaultPrice = document.getElementById('applyDefaultPrice');
+
+            let inventoryData = null;
+
+            // Load inventory data
+            loadInventoryBtn.addEventListener('click', function() {
+                try {
+                    // Get the input value and convert to a JavaScript object
+                    const inputValue = inventoryInput.value.trim();
+                    
+                    // Extract the JSON-like object from the string
+                    const match = inputValue.match(/const\s+inventory\s*=\s*(\{[\s\S]*\});/);
+                    if (!match) {
+                        throw new Error("Invalid inventory format. Make sure it starts with 'const inventory = {' and ends with '};'");
+                    }
+                    
+                    const objectStr = match[1];
+                    // Use Function constructor to safely evaluate the object
+                    inventoryData = Function(`'use strict'; return (${objectStr})`)();
+                    
+                    // Display the inventory editor
+                    displayInventoryEditor(inventoryData);
+                    statusMessage.textContent = 'Inventory loaded successfully!';
+                    statusMessage.className = 'success';
+                    inventoryEditor.style.display = 'block';
+                } catch (error) {
+                    console.error('Error loading inventory:', error);
+                    statusMessage.textContent = 'Error loading inventory: ' + error.message;
+                    statusMessage.className = 'error';
+                }
+            });
+
+            // Display inventory editor
+            function displayInventoryEditor(data) {
+                categoriesContainer.innerHTML = '';
+
+                data.categories.forEach((category, categoryIndex) => {
+                    const categoryElement = document.createElement('div');
+                    categoryElement.className = 'category';
+                    categoryElement.innerHTML = `
+                        <div class="category-header">
+                            <h3>${category.name}</h3>
+                            <span>(${category.items.length} items)</span>
+                        </div>
+                        <div class="category-content">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Stock</th>
+                                        <th>Price</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${category.items.map((item, itemIndex) => `
+                                        <tr class="item-row" data-category-index="${categoryIndex}" data-item-index="${itemIndex}">
+                                            <td>
+                                                <div class="item-name ${getQualityClass(item.quality)}">${item.name}</div>
+                                                <div>ID: ${item.id}</div>
+                                            </td>
+                                            <td>${item.stock}</td>
+                                            <td>
+                                                <div class="price-container">
+                                                    <input type="number" class="price-input gold-price" min="0" value="0"> 
+                                                    <span class="gold-icon" title="Gold"></span>
+                                                    <input type="number" class="price-input silver-price" min="0" max="99" value="0"> 
+                                                    <span class="silver-icon" title="Silver"></span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <button class="remove-btn">Remove</button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                    categoriesContainer.appendChild(categoryElement);
+                });
+
+                // Add event listeners for category toggling
+                document.querySelectorAll('.category-header').forEach(header => {
+                    header.addEventListener('click', function() {
+                        this.parentElement.classList.toggle('active');
+                    });
+                });
+
+                // Initially expand all categories
+                document.querySelectorAll('.category').forEach(category => {
+                    category.classList.add('active');
+                });
+
+                // Add event listeners for remove buttons
+                document.querySelectorAll('.remove-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const row = this.closest('.item-row');
+                        const categoryIndex = parseInt(row.dataset.categoryIndex);
+                        const itemIndex = parseInt(row.dataset.itemIndex);
+                        
+                        // Remove the item from the data
+                        inventoryData.categories[categoryIndex].items.splice(itemIndex, 1);
+                        
+                        // Update the UI
+                        row.remove();
+                        
+                        // Update the item count in the category header
+                        const categoryHeader = document.querySelectorAll('.category-header')[categoryIndex];
+                        const itemCountSpan = categoryHeader.querySelector('span');
+                        const newItemCount = inventoryData.categories[categoryIndex].items.length;
+                        itemCountSpan.textContent = `(${newItemCount} items)`;
+                    });
+                });
+
+                // Set the price inputs from the data
+                document.querySelectorAll('.item-row').forEach(row => {
+                    const categoryIndex = parseInt(row.dataset.categoryIndex);
+                    const itemIndex = parseInt(row.dataset.itemIndex);
+                    
+                    // Get the item from the data
+                    const item = inventoryData.categories[categoryIndex].items[itemIndex];
+                    
+                    // Get the price inputs
+                    const goldInput = row.querySelector('.gold-price');
+                    const silverInput = row.querySelector('.silver-price');
+                    
+                    // Set the values if the item has price data
+                    if (item.price) {
+                        if (typeof item.price === 'object') {
+                            // If price is an object with gold and silver
+                            goldInput.value = item.price.gold || 0;
+                            silverInput.value = item.price.silver || 0;
+                        } else {
+                            // If price is just a number (legacy format)
+                            goldInput.value = 0;
+                            silverInput.value = item.price || 0;
+                        }
+                    }
+                });
+            }
+
+            // Apply default price to all items
+            applyDefaultPrice.addEventListener('click', function() {
+                const goldValue = parseInt(defaultGold.value) || 0;
+                const silverValue = parseInt(defaultSilver.value) || 0;
+                
+                document.querySelectorAll('.item-row').forEach(row => {
+                    const goldInput = row.querySelector('.gold-price');
+                    const silverInput = row.querySelector('.silver-price');
+                    
+                    goldInput.value = goldValue;
+                    silverInput.value = silverValue;
+                });
+            });
+
+            // Export updated inventory
+            exportBtn.addEventListener('click', function() {
+                // Get the updated inventory data with prices
+                updateInventoryDataWithPrices();
+                
+                // Format the data for export
+                const exportData = formatInventoryForExport(inventoryData);
+                
+                // Display in the export panel
+                exportOutput.value = exportData;
+                exportPanel.style.display = 'block';
+            });
+
+            // Update inventory data with prices
+            function updateInventoryDataWithPrices() {
+                document.querySelectorAll('.item-row').forEach(row => {
+                    const categoryIndex = parseInt(row.dataset.categoryIndex);
+                    const itemIndex = parseInt(row.dataset.itemIndex);
+                    const goldInput = row.querySelector('.gold-price');
+                    const silverInput = row.querySelector('.silver-price');
+                    
+                    const goldValue = parseInt(goldInput.value) || 0;
+                    const silverValue = parseInt(silverInput.value) || 0;
+                    
+                    // Calculate the price in silver (for internal storage)
+                    const priceInSilver = (goldValue * 100) + silverValue;
+                    
+                    // Check if the category and item exist before updating
+                    if (inventoryData && 
+                        inventoryData.categories && 
+                        inventoryData.categories[categoryIndex] && 
+                        inventoryData.categories[categoryIndex].items && 
+                        inventoryData.categories[categoryIndex].items[itemIndex]) {
+                        
+                        // Update the price in the data
+                        inventoryData.categories[categoryIndex].items[itemIndex].price = {
+                            gold: goldValue,
+                            silver: silverValue,
+                            total: priceInSilver
+                        };
+                    } else {
+                        console.warn(`Item at category ${categoryIndex}, index ${itemIndex} not found in data`);
+                    }
+                });
+            }
+
+            // Format inventory for export
+            function formatInventoryForExport(data) {
+                const exportObj = {
+                    shopName: "Nymnsen's Trinkets & Curiosities",
+                    lastUpdated: new Date().toISOString(),
+                    categories: data.categories.map(category => {
+                        // Only include categories with items
+                        if (category.items.length === 0) {
+                            return null;
+                        }
+                        
+                        return {
+                            id: category.id,
+                            name: category.name,
+                            items: category.items.map(item => ({
+                                id: item.id,
+                                name: item.name,
+                                price: item.price,
+                                stock: item.stock,
+                                quality: item.quality,
+                                unique: item.unique || false
+                            }))
+                        };
+                    }).filter(Boolean) // Remove null categories
+                };
+                
+                return `const shopInventory = ${JSON.stringify(exportObj, null, 2)};`;
+            }
+
+            // Copy to clipboard
+            copyBtn.addEventListener('click', function() {
+                exportOutput.select();
+                document.execCommand('copy');
+                this.textContent = 'Copied!';
+                setTimeout(() => {
+                    this.textContent = 'Copy to Clipboard';
+                }, 2000);
+            });
+
+            // Clear all data
+            clearBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to clear all data? This cannot be undone.')) {
+                    inventoryInput.value = '';
+                    categoriesContainer.innerHTML = '';
+                    inventoryEditor.style.display = 'none';
+                    exportPanel.style.display = 'none';
+                    statusMessage.textContent = '';
+                    inventoryData = null;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

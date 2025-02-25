@@ -4,2015 +4,1899 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nymnsen's Trinkets & Curiosities</title>
-    <script>const whTooltips = {colorLinks: true, iconizeLinks: true, renameLinks: true};</script>
-    <script src="https://wow.zamimg.com/js/tooltips.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --wow-gold: #FFD700;
-            --wow-gold-hover: #FFE866;
-            --wow-border: #4A4A4A;
-            --bg-dark: #2B2B2B;
-            --bg-light: #3D3D3D;
-            --bg-darker: #1A1A1A;
-            --text-light: #FFFFFF;
-            --text-muted: #888888;
-            --danger: #ff4444;
-            --max-width: 1200px;
-            --shadow-color: rgba(255, 215, 0, 0.1);
-            --shadow-color-hover: rgba(255, 215, 0, 0.2);
+            --primary-color: #4e2a84; /* Deep purple */
+            --primary-color-rgb: 78, 42, 132;
+            --secondary-color: #8661c5; /* Lighter purple */
+            --accent-color: #00b4cc; /* Teal */
+            --accent-color-rgb: 0, 180, 204;
+            --danger-color: #c41e3a; /* Crimson */
+            --background-dark: #121212;
+            --background-medium: #1e1e1e;
+            --background-light: #2d2d2d;
+            --text-color: #e0e0e0;
+            --border-color: #383838;
+            
+            /* Item quality colors */
+            --common-color: #9d9d9d;
+            --uncommon-color: #1eff00;
+            --rare-color: #0070dd;
+            --epic-color: #a335ee;
+            --legendary-color: #ff8000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background-color: var(--bg-darker);
-            color: var(--text-light);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
+            background-color: var(--background-dark);
+            color: var(--text-color);
+            line-height: 1.6;
+            background-image: url('https://bnetcmsus-a.akamaihd.net/cms/template_resource/OZSIXGJY1GNT1648559424562.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-blend-mode: overlay;
+        }
+
+        .overlay {
+            background-color: rgba(18, 18, 18, 0.9);
             min-height: 100vh;
         }
 
         .container {
-            width: 100%;
-            max-width: var(--max-width);
-            display: flex;
-            gap: 20px;
-        }
-
-        .main-content {
-            flex: 1;
-            max-width: calc(var(--max-width) - 400px);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            border: 2px solid var(--wow-border);
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
-            background: linear-gradient(to bottom, #3D3D3D, #2B2B2B);
-            border-radius: 8px;
-            box-shadow: 0 0 10px var(--shadow-color);
-            transition: box-shadow 0.3s ease;
         }
 
-        .header:hover {
-            box-shadow: 0 0 20px var(--shadow-color-hover);
-        }
-
-        h1 {
-            color: var(--wow-gold);
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            margin: 0;
-        }
-
-        .category {
-            margin-bottom: 30px;
-            opacity: 0;
-            animation: fadeIn 0.5s ease forwards;
-            padding: 15px;
-            border-radius: 8px;
-            background: linear-gradient(to bottom, rgba(61, 61, 61, 0.1), transparent);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .category:nth-child(2) { animation-delay: 0.2s; }
-        .category:nth-child(3) { animation-delay: 0.4s; }
-
-        .category-title {
-            color: var(--wow-gold);
-            margin-bottom: 15px;
-            border-bottom: 2px solid var(--wow-border);
-            padding-bottom: 5px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: all 0.3s ease;
-        }
-
-        .category-title-content {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .category-title:hover {
-            color: #FFF;
-            text-shadow: 0 0 10px var(--wow-gold);
-            border-bottom-color: var(--wow-gold);
-        }
-
-        .category-title::after {
-            content: '▼';
-            font-size: 0.8em;
-            transition: transform 0.3s ease;
-        }
-
-        .category-title.collapsed::after {
-            transform: rotate(-90deg);
-        }
-
-        .category-title::before {
-            content: '';
-            width: 24px;
-            height: 24px;
-            background-size: contain;
-            background-repeat: no-repeat;
-        }
-
-        .category[data-category="consumables"] .category-title::before {
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23FFD700" d="M40,20 h20 v40 a20,20 0 1,1 -20,0 v-40 M40,25 h20 v-5 h-20 v5"/></svg>');
-        }
-
-        .category[data-category="reagents"] .category-title::before {
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23FFD700" d="M20,80 h60 v-10 h-60 v10 M25,70 h50 l-25,-50 l-25,50"/></svg>');
-        }
-
-        .category[data-category="cloth"] .category-title::before {
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23FFD700" d="M30,20 c20,0 20,20 40,20 v40 c-20,0 -20,-20 -40,-20 v-40"/></svg>');
-        }
-
-        .items-grid {
-            display: grid;
-            gap: 10px;
-            margin-bottom: 20px;
-            transition: max-height 0.3s ease, opacity 0.3s ease;
-            overflow-y: auto;
-            max-height: 600px;
-            opacity: 1;
-            padding-right: 10px;
-        }
-
-        .items-grid::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .items-grid::-webkit-scrollbar-track {
-            background: var(--bg-dark);
-            border-radius: 4px;
-        }
-
-        .items-grid::-webkit-scrollbar-thumb {
-            background: var(--wow-border);
-            border-radius: 4px;
-        }
-
-        .items-grid::-webkit-scrollbar-thumb:hover {
-            background: var(--wow-gold);
-        }
-
-        .items-grid.collapsed {
-            max-height: 0;
-            opacity: 0;
-            margin-bottom: 0;
-            overflow: hidden;
-        }
-
-        .item-row {
-            display: grid;
-            grid-template-columns: 1fr 100px auto;
-            align-items: center;
-            padding: 10px;
-            border-radius: 4px;
-            gap: 10px;
-            transition: transform 0.2s ease, background-color 0.3s ease;
-        }
-
-        .item-row:hover {
-            transform: translateX(5px);
-        }
-
-        .item-row:nth-child(odd) {
-            background-color: var(--bg-dark);
-        }
-
-        .item-row:nth-child(even) {
-            background-color: var(--bg-light);
-        }
-
-        .price {
-            display: flex;
-            align-items: center;
-            gap: 2px;
-            font-weight: bold;
-            color: var(--wow-gold);
-            justify-content: flex-end;
-            width: 100px;
-        }
-
-        .price .currency-amount {
-            display: flex;
-            align-items: center;
-            gap: 2px;
-            white-space: nowrap;
-        }
-
-        .currency-separator {
-            margin: 0 1px;
-            color: var(--text-muted);
-        }
-
-        .gold-icon {
-            width: 14px;
-            height: 14px;
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="g"><stop offset="0%" stop-color="%23FFE866"/><stop offset="100%" stop-color="%23FFD700"/></radialGradient><filter id="f"><feGaussianBlur stdDeviation="2"/></filter></defs><circle cx="50" cy="50" r="45" fill="url(%23g)" stroke="%23B8860B" stroke-width="5"/><circle cx="50" cy="50" r="35" fill="%23DAA520" filter="url(%23f)"/></svg>');
-            background-repeat: no-repeat;
-            background-size: contain;
-        }
-
-        .silver-icon {
-            width: 14px;
-            height: 14px;
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="s"><stop offset="0%" stop-color="%23FFFFFF"/><stop offset="100%" stop-color="%23C0C0C0"/></radialGradient><filter id="b"><feGaussianBlur stdDeviation="1"/></filter></defs><circle cx="50" cy="50" r="45" fill="url(%23s)" stroke="%23808080" stroke-width="5"/><circle cx="50" cy="50" r="35" fill="%23A0A0A0" filter="url(%23b)"/></svg>');
-            background-repeat: no-repeat;
-            background-size: contain;
-        }
-
-        .add-to-cart {
-            background-color: #4A4A4A;
-            border: 1px solid var(--wow-gold);
-            color: var(--wow-gold);
-            padding: 5px 10px;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: all 0.2s ease;
-        }
-
-        .add-to-cart:hover {
-            background-color: var(--wow-gold);
-            color: #000000;
-            transform: scale(1.05);
-        }
-
-        .cart {
-            width: 400px;
-            background-color: var(--bg-dark);
-            padding: 20px;
-            border: 2px solid var(--wow-border);
-            border-radius: 8px;
-            height: fit-content;
-            position: sticky;
-            top: 20px;
-            box-sizing: border-box;
-        }
-
-        .cart-title {
-            color: var(--wow-gold);
-            margin-top: 0;
-        }
-
-        .cart-items {
-            margin-bottom: 15px;
-        }
-
-        .cart-item {
-            padding: 5px 0;
-            animation: slideIn 0.3s ease;
-            display: grid;
-            grid-template-columns: 30px auto 60px 120px;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .cart-item-name {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            padding-right: 10px;
-        }
-
-        .quantity-input {
-            width: 55px;
-            padding: 2px 5px;
-            background-color: var(--bg-light);
-            border: 1px solid var(--wow-border);
-            color: #FFFFFF;
-            border-radius: 4px;
+        header {
             text-align: center;
+            padding: 20px 0;
+            position: relative;
         }
 
-        .quantity-input:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .remove-item {
-            color: var(--danger);
-            cursor: pointer;
-            padding: 0;
-            width: 24px;
-            height: 24px;
-            border: 1px solid var(--danger);
-            border-radius: 4px;
-            background: none;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            line-height: 1;
-        }
-
-        .remove-item:hover {
-            background-color: var(--danger);
-            color: var(--bg-darker);
-        }
-
-        .cart-item-price {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 4px;
-            width: 120px;
-        }
-
-        .cart-item-price .currency-amount {
-            display: flex;
-            align-items: center;
-            gap: 2px;
-            white-space: nowrap;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        .cart-total {
-            border-top: 1px solid var(--wow-border);
-            padding-top: 10px;
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-weight: bold;
-            font-size: 1.1em;
-        }
-
-        .cart-total .currency-display {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            min-width: 120px;
-            justify-content: flex-end;
-        }
-
-        .cart-total .currency-display .currency-amount {
-            display: flex;
-            align-items: center;
-            gap: 2px;
-            white-space: nowrap;
-        }
-
-        .copy-instructions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 10px;
-            color: #888;
-            font-size: 0.9em;
-        }
-
-        .help-icon {
-            cursor: help;
-            background-color: var(--wow-border);
-            color: var(--wow-gold);
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .help-tooltip {
+        .shop-title {
+            font-family: 'Cinzel', serif;
+            color: #fff;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px var(--accent-color), 0 0 20px var(--accent-color), 0 0 30px var(--primary-color);
+            font-weight: 700;
+            letter-spacing: 1px;
             position: relative;
             display: inline-block;
         }
-
-        .help-tooltip .tooltip-text {
-            visibility: hidden;
-            background-color: #000;
-            color: #fff;
-            text-align: left;
-            padding: 8px 12px;
-            border-radius: 4px;
-            border: 1px solid var(--wow-gold);
+        
+        .shop-title::after {
+            content: '';
             position: absolute;
-            z-index: 1;
-            bottom: 125%;
+            bottom: -8px;
             left: 50%;
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
             transform: translateX(-50%);
-            width: max-content;
-            opacity: 0;
-            transition: opacity 0.3s;
         }
 
-        .help-tooltip:hover .tooltip-text {
-            visibility: visible;
-            opacity: 1;
+        .shop-subtitle {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            opacity: 0.9;
+            font-weight: 300;
+            letter-spacing: 1px;
         }
 
-        .copy-text {
-            width: 100%;
+        /* Category Navigation */
+        .categories {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            position: relative;
+            background-color: rgba(30, 30, 30, 0.7);
+            border-radius: 8px;
+            padding: 3px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        }
+
+        .category-tab {
+            background: rgba(40, 40, 50, 0.7);
+            color: var(--text-color);
+            padding: 14px 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            flex: 1;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            position: relative;
+            backdrop-filter: blur(4px);
+            z-index: 1;
+            margin: 0 2px;
+            text-transform: uppercase;
+            border-radius: 5px;
+        }
+
+        .category-tab:first-child {
+            margin-left: 0;
+        }
+
+        .category-tab:last-child {
+            margin-right: 0;
+        }
+
+        .category-tab:hover {
+            background: rgba(var(--primary-color-rgb), 0.4);
+            color: #fff;
+            box-shadow: inset 0 0 5px rgba(var(--accent-color-rgb), 0.3);
+        }
+
+        .category-tab.active {
+            background: rgba(var(--accent-color-rgb), 0.3);
+            color: #fff;
+            box-shadow: inset 0 0 8px rgba(var(--accent-color-rgb), 0.5);
+        }
+
+        .category-tab.active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+            opacity: 0.8;
+        }
+
+        /* Main Content Layout */
+        .content {
+            display: flex;
+            gap: 30px;
+        }
+
+        .items-container {
+            flex: 1;
+        }
+
+        /* Item Listings */
+        .item-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .item-card {
+            background: linear-gradient(135deg, rgba(30, 30, 30, 0.9) 0%, rgba(18, 18, 18, 0.95) 100%);
+            border-radius: 5px;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(60, 60, 60, 0.3);
+            backdrop-filter: blur(4px);
+        }
+
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(var(--accent-color-rgb), 0.3);
+            border-color: rgba(var(--accent-color-rgb), 0.3);
+        }
+
+        .item-header {
             padding: 10px;
-            margin-top: 10px;
-            background-color: var(--bg-light);
-            border: 1px solid var(--wow-border);
-            color: #FFFFFF;
+            position: relative;
+            border-radius: 5px 5px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .item-icon {
+            width: 36px;
+            height: 36px;
             border-radius: 4px;
-            resize: vertical;
-            min-height: 120px;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .stock-info {
-            color: #888;
-            font-size: 0.9em;
-            margin-left: 8px;
+        .item-name {
+            flex: 1;
+            font-weight: 600;
+            font-size: 1rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+            text-decoration: underline; /* Simple underline to indicate it's clickable */
+            text-underline-offset: 2px; /* Space between text and underline */
+            text-decoration-color: rgba(255, 255, 255, 0.4); /* Subtle underline color */
         }
 
-        .item-name-container {
+        .item-name:hover {
+            text-decoration-color: var(--accent-color); /* Highlight on hover */
+        }
+
+        .item-details {
+            padding: 8px 10px; /* Reduced padding */
+            background-color: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .item-price {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        /* Improve gold/silver icon spacing and styling */
+        .gold-icon, .silver-icon {
+            width: 15px;
+            height: 15px;
+            display: inline-block;
+            margin: 0 2px;
+            border-radius: 50%;
+            vertical-align: middle;
+        }
+
+        .gold-icon {
+            background-color: #ffd700;
+            box-shadow: 0 0 5px rgba(255, 215, 0, 0.7);
+        }
+
+        .silver-icon {
+            background-color: #c0c0c0;
+            box-shadow: 0 0 5px rgba(192, 192, 192, 0.7);
+        }
+
+        .item-stock {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .item-actions {
+            padding: 8px 10px; /* Reduced padding */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .quantity-controls {
             display: flex;
             align-items: center;
         }
 
-        .out-of-stock {
-            opacity: 0.5;
-        }
-
-        .out-of-stock .add-to-cart {
-            cursor: not-allowed;
-            pointer-events: none;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-            }
-
-            .main-content {
-                max-width: 100%;
-            }
-
-            .cart {
-                width: auto;
-                position: static;
-            }
-        }
-
-        .search-container {
-            margin-bottom: 20px;
+        .quantity-btn {
+            width: 28px;
+            height: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: rgba(45, 45, 45, 0.6);
+            color: var(--text-color);
+            font-size: 1rem;
             display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            box-shadow: inset 0 1px rgba(255, 255, 255, 0.05);
+        }
+
+        .quantity-btn:hover {
+            background-color: rgba(78, 42, 132, 0.5);
+            border-color: rgba(78, 42, 132, 0.8);
+            color: white;
+        }
+
+        .quantity-input {
+            width: 40px;
+            height: 30px;
+            text-align: center;
+            border: none;
+            background-color: var(--background-light);
+            color: var(--text-color);
+            font-size: 0.9rem;
+            margin: 0 5px;
+            border-radius: 4px;
+        }
+
+        .add-to-cart {
+            background-color: rgba(0, 180, 204, 0.2);
+            color: white;
+            border: 1px solid rgba(0, 180, 204, 0.5);
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), inset 0 1px rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(4px);
+        }
+
+        .add-to-cart:hover {
+            background-color: rgba(0, 180, 204, 0.4);
+            border-color: rgba(0, 180, 204, 0.8);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), 0 0 10px rgba(0, 180, 204, 0.3), inset 0 1px rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+        
+        .add-to-cart:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), inset 0 1px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Quality-specific styling */
+        .common .item-header {
+            background: linear-gradient(135deg, rgba(45, 45, 45, 0.8) 0%, rgba(26, 26, 26, 0.8) 100%);
+            border-bottom: 2px solid var(--common-color);
+            box-shadow: inset 0 0 10px rgba(157, 157, 157, 0.1);
+        }
+
+        .uncommon .item-header {
+            background: linear-gradient(135deg, rgba(20, 40, 20, 0.8) 0%, rgba(10, 30, 10, 0.8) 100%);
+            border-bottom: 2px solid var(--uncommon-color);
+            box-shadow: inset 0 0 15px rgba(30, 255, 0, 0.1);
+        }
+
+        .uncommon .item-name {
+            color: var(--uncommon-color);
+            text-shadow: 0 0 5px rgba(30, 255, 0, 0.3);
+        }
+
+        .rare .item-header {
+            background: linear-gradient(135deg, rgba(16, 42, 73, 0.8) 0%, rgba(6, 20, 37, 0.8) 100%);
+            border-bottom: 2px solid var(--rare-color);
+            box-shadow: inset 0 0 15px rgba(0, 112, 221, 0.2);
+        }
+
+        .rare .item-name {
+            color: var(--rare-color);
+            text-shadow: 0 0 5px rgba(0, 112, 221, 0.3);
+        }
+
+        .epic .item-header {
+            background: linear-gradient(135deg, rgba(59, 19, 86, 0.8) 0%, rgba(26, 10, 41, 0.8) 100%);
+            border-bottom: 2px solid var(--epic-color);
+            box-shadow: inset 0 0 15px rgba(163, 53, 238, 0.2);
+        }
+
+        .epic .item-name {
+            color: var(--epic-color);
+            text-shadow: 0 0 5px rgba(163, 53, 238, 0.3);
+        }
+
+        .legendary .item-header {
+            background: linear-gradient(135deg, rgba(86, 43, 6, 0.8) 0%, rgba(45, 22, 3, 0.8) 100%);
+            border-bottom: 2px solid var(--legendary-color);
+            box-shadow: inset 0 0 15px rgba(255, 128, 0, 0.2);
+        }
+
+        .legendary .item-name {
+            color: var(--legendary-color);
+            text-shadow: 0 0 5px rgba(255, 128, 0, 0.3);
+        }
+
+        /* Add rarity-based glow effects */
+        .common:hover {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .uncommon:hover {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(30, 255, 0, 0.3);
+        }
+
+        .rare:hover {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 112, 221, 0.3);
+        }
+
+        .epic:hover {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(163, 53, 238, 0.3);
+        }
+
+        .legendary:hover {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 128, 0, 0.3);
+        }
+
+        /* Shopping Basket */
+        .shopping-basket {
+            width: 300px;
+            background: linear-gradient(135deg, rgba(30, 30, 30, 0.9) 0%, rgba(18, 18, 18, 0.95) 100%);
+            border-radius: 5px;
+            padding: 15px;
+            position: sticky;
+            top: 20px;
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .basket-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 15px;
+        }
+
+        .basket-title {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .basket-count {
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .basket-items {
+            margin-bottom: 15px;
+            max-height: 350px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        
+        /* Custom scrollbar for the basket */
+        .basket-items::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .basket-items::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        
+        .basket-items::-webkit-scrollbar-thumb {
+            background: rgba(var(--accent-color-rgb), 0.3);
+            border-radius: 10px;
+        }
+        
+        .basket-items::-webkit-scrollbar-thumb:hover {
+            background: rgba(var(--accent-color-rgb), 0.5);
+        }
+
+        /* Basket item styling improvements */
+        .basket-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .basket-item-info {
+            flex: 1;
+            min-width: 0; /* Prevent flex items from overflowing */
+        }
+
+        .basket-item-details {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .basket-item-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 200px;
+        }
+
+        .basket-item-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             gap: 10px;
         }
 
-        .search-input {
-            flex: 1;
-            padding: 10px;
-            background-color: var(--bg-light);
-            border: 1px solid var(--wow-border);
-            color: #FFFFFF;
-            border-radius: 4px;
-            font-size: 1em;
+        .basket-quantity-controls {
+            display: flex;
+            align-items: center;
         }
 
-        .search-input:focus {
-            outline: none;
-            border-color: var(--wow-gold);
-            box-shadow: 0 0 5px rgba(255, 215, 0, 0.2);
+        .basket-quantity-btn {
+            width: 24px;
+            height: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: rgba(45, 45, 45, 0.6);
+            color: var(--text-color);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
 
-        .no-results {
-            color: #888;
+        .basket-quantity-input {
+            width: 30px;
+            height: 24px;
+            text-align: center;
+            background-color: rgba(30, 30, 30, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            font-size: 0.9rem;
+            margin: 0 2px;
+        }
+
+        .basket-item-total {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            gap: 2px; /* Add consistent spacing between elements */
+        }
+
+        .basket-item-total span {
+            margin: 0 1px; /* Add small margin for better readability */
+        }
+
+        .basket-item-remove {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0 5px;
+            transition: all 0.2s ease;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+        }
+
+        .basket-item-remove:hover {
+            color: var(--danger-color);
+        }
+
+        .basket-summary {
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .summary-row:last-child {
+            margin-bottom: 0;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-color);
+            font-weight: bold;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background-color: rgba(0, 180, 204, 0.2);
+            color: white;
+            border: 1px solid rgba(0, 180, 204, 0.6);
+            padding: 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+            margin-top: 15px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(4px);
+        }
+
+        .checkout-btn:hover {
+            background-color: rgba(0, 180, 204, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 180, 204, 0.3);
+            border-color: rgba(0, 180, 204, 0.8);
+        }
+        
+        .checkout-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+        }
+
+        .empty-basket-message {
             text-align: center;
             padding: 20px;
             font-style: italic;
+            color: rgba(255, 255, 255, 0.5);
         }
 
-        .search-input-wrapper {
-            position: relative;
-            flex: 1;
+        /* Modal for checkout */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
             display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
         }
 
-        .clear-search {
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, rgba(30, 30, 30, 0.95) 0%, rgba(18, 18, 18, 0.98) 100%);
+            border-radius: 8px;
+            padding: 25px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.7), 0 0 15px rgba(var(--accent-color-rgb), 0.2);
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .modal-content h2 {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(var(--accent-color-rgb), 0.3);
+        }
+
+        .close-modal {
             position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: var(--text-muted);
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
             cursor: pointer;
-            font-size: 20px;
-            padding: 0 5px;
-            display: none;
+            color: rgba(255, 255, 255, 0.6);
+            transition: all 0.2s ease;
         }
 
-        .clear-search:hover {
-            color: var(--text-light);
+        .close-modal:hover {
+            color: var(--danger-color);
+        }
+
+        .checkout-info {
+            margin-bottom: 15px;
+        }
+
+        .in-game-mail {
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            color: #ccc;
+            max-height: 200px;
+            overflow-y: auto;
+            line-height: 1.4;
+        }
+
+        .copy-mail-btn {
+            background-color: rgba(0, 180, 204, 0.2);
+            color: white;
+            border: 1px solid rgba(0, 180, 204, 0.6);
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+            display: block;
+            margin: 0 auto 20px auto;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px rgba(255, 255, 255, 0.1);
+            width: 80%;
+        }
+
+        .copy-mail-btn:hover {
+            background-color: rgba(0, 180, 204, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 180, 204, 0.3);
+            border-color: rgba(0, 180, 204, 0.8);
+        }
+
+        .copy-mail-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+        }
+
+        .copy-success {
+            text-align: center;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .copy-success.show {
+            opacity: 1;
+        }
+
+        .checkout-instructions {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            margin-top: 5px;
+            line-height: 1.5;
+        }
+
+        .checkout-instructions p {
+            margin-bottom: 8px;
+        }
+
+        .checkout-instructions p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Loader */
+        .loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(78, 42, 132, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 900px) {
+            .content {
+                flex-direction: column;
+            }
+
+            .shopping-basket {
+                width: 100%;
+                position: static;
+                margin-top: 30px;
+            }
+
+            .categories {
+                flex-wrap: wrap;
+            }
+
+            .category-tab {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .item-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Additional glossy effects for item cards */
+        .item-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+        }
+
+        /* Wowhead tooltip styles */
+        .wowhead-tooltip {
+            z-index: 1000 !important;
+        }
+        
+        /* Fix for sticky tooltips */
+        #wowhead-tooltip {
+            z-index: 100000 !important;
+            pointer-events: none !important; /* Prevent tooltip from capturing hover */
+            position: absolute !important;
+        }
+        
+        /* Ensure all elements with data-wowhead attribute are clickable */
+        [data-wowhead] {
+            cursor: pointer;
+            position: relative;
+        }
+        
+        /* Add subtle highlight effect to wowhead elements */
+        [data-wowhead]:hover {
+            text-shadow: 0 0 2px var(--accent-color);
+        }
+        
+        /* Fix tooltip popup positioning */
+        #wowhead-tooltip {
+            z-index: 10000 !important;
+        }
+
+        /* Ensure Wowhead links don't have underlines or color changes */
+        a.wowhead-link {
+            text-decoration: none !important;
+            color: inherit !important;
+            cursor: pointer;
+        }
+
+        /* But the parent element (item-name) should have the underline */
+        .item-name {
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            text-decoration-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .item-name:hover {
+            text-decoration-color: var(--accent-color);
+        }
+
+        /* Add this right after the category tabs */
+        .sorting-controls {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+        }
+
+        .sorting-controls label {
+            margin-right: 10px;
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+
+        .sort-select {
+            background-color: rgba(30, 30, 30, 0.8);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .sort-select:hover {
+            border-color: var(--accent-color);
+        }
+
+        .sort-select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.2);
+        }
+
+        /* Apply rarity colors to basket items */
+        .basket-item-name a.wowhead-link {
+            text-decoration: none !important;
+            color: inherit !important;
+        }
+
+        .basket-item-name.common a.wowhead-link {
+            color: var(--common-color) !important;
+        }
+
+        .basket-item-name.uncommon a.wowhead-link {
+            color: var(--uncommon-color) !important;
+            text-shadow: 0 0 3px rgba(30, 255, 0, 0.3);
+        }
+
+        .basket-item-name.rare a.wowhead-link {
+            color: var(--rare-color) !important;
+            text-shadow: 0 0 3px rgba(0, 112, 221, 0.3);
+        }
+
+        .basket-item-name.epic a.wowhead-link {
+            color: var(--epic-color) !important;
+            text-shadow: 0 0 3px rgba(163, 53, 238, 0.3);
+        }
+
+        .basket-item-name.legendary a.wowhead-link {
+            color: var(--legendary-color) !important;
+            text-shadow: 0 0 3px rgba(255, 128, 0, 0.3);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="main-content">
-            <div class="header">
-                <h1>Nymnsen's Trinkets & Curiosities</h1>
+    <div class="overlay">
+        <div class="container">
+            <header>
+                <h1 class="shop-title">Nymnsen's Trinkets & Curiosities</h1>
+                <p class="shop-subtitle">Presented with love (& greed) for all of OnlyFangs!</p>
+            </header>
+
+            <div class="categories">
+                <button class="category-tab active" data-category="all">All Items</button>
+                <button class="category-tab" data-category="consumables">Consumables</button>
+                <button class="category-tab" data-category="herbs">Herbs</button>
+                <button class="category-tab" data-category="reagents">Reagents</button>
+                <button class="category-tab" data-category="items">Equipment</button>
+                <button class="category-tab" data-category="patterns">Patterns</button>
+                <button class="category-tab" data-category="cloth">Cloth</button>
+                <button class="category-tab" data-category="other">Other</button>
             </div>
 
-            <div class="search-container">
-                <div class="search-input-wrapper">
-                    <input type="text" 
-                        class="search-input" 
-                        placeholder="Search items..." 
-                        oninput="filterItems(this.value)">
-                    <button class="clear-search" onclick="clearSearch()" style="display: none;">×</button>
-                </div>
+            <!-- Add this right after the category tabs -->
+            <div class="sorting-controls">
+                <label for="sortSelect">Sort by:</label>
+                <select id="sortSelect" class="sort-select">
+                    <option value="rarity-desc">Rarity (Highest first)</option>
+                    <option value="rarity-asc">Rarity (Lowest first)</option>
+                    <option value="price-desc">Price (Highest first)</option>
+                    <option value="price-asc">Price (Lowest first)</option>
+                    <option value="name-asc">Name (A-Z)</option>
+                    <option value="name-desc">Name (Z-A)</option>
+                </select>
             </div>
 
-            <div class="category">
-                <h2 class="category-title">
-                    <div class="category-title-content">
-                        <!-- Icon will appear here from ::before -->
-                        Consumables
-                    </div>
-                    <!-- Arrow will be on the right -->
-                </h2>
-                <div class="items-grid">
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=3823">Lesser Invisibility Potion</a>
-                            <span class="stock-info">- 3 in stock</span>
+            <div class="content">
+                <div class="items-container">
+                    <div class="item-list" id="itemList">
+                        <!-- Items will be loaded here -->
+                        <div class="loader">
+                            <div class="spinner"></div>
                         </div>
-                        <div class="price">
-                            <span class="currency-amount">1<div class="gold-icon"></div></span>
-                            <span class="currency-amount">50<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Lesser Invisibility Potion" 
-                            data-price="150"
-                            data-item-id="3823"
-                            data-stock="3">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=3928">Superior Healing Potion</a>
-                            <span class="stock-info">- 22 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">20<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Superior Healing Potion" 
-                            data-price="20"
-                            data-item-id="3928"
-                            data-stock="22">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=12820">Winterfall Firewater</a>
-                            <span class="stock-info">- 15 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">75<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Winterfall Firewater" 
-                            data-price="75"
-                            data-item-id="12820"
-                            data-stock="15">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=13446">Major Healing Potion</a>
-                            <span class="stock-info">- 25 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">60<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Major Healing Potion" 
-                            data-price="60"
-                            data-item-id="13446"
-                            data-stock="25">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=16971">Clamlette Surprise</a>
-                            <span class="stock-info">- 20 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">20<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Clamlette Surprise" 
-                            data-price="20"
-                            data-item-id="16971"
-                            data-stock="20">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=6657">Savory Deviate Delight</a>
-                            <span class="stock-info">- 16 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">20<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Savory Deviate Delight" 
-                            data-price="20"
-                            data-item-id="6657"
-                            data-stock="16">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=18045">Tender Wolf Steak</a>
-                            <span class="stock-info">- 9 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">20<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Tender Wolf Steak" 
-                            data-price="20"
-                            data-item-id="18045"
-                            data-stock="9">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=17222/">Spider Sausage</a>
-                            <span class="stock-info">- 4 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">20<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Spider Sausage" 
-                            data-price="20"
-                            data-item-id="17222"
-                            data-stock="4">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=7974">Zesty Clam Meat</a>
-                            <span class="stock-info">- 100 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">5<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Zesty Clam Meat" 
-                            data-price="5"
-                            data-item-id="7974"
-                            data-stock="100">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=118">Minor Healing Potion</a>
-                            <span class="stock-info">- 40 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">8<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Minor Healing Potion" 
-                            data-price="8"
-                            data-item-id="118"
-                            data-stock="40">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=929">Healing Potion</a>
-                            <span class="stock-info">- 2 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">15<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Healing Potion" 
-                            data-price="15"
-                            data-item-id="929"
-                            data-stock="2">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=1710">Greater Healing Potion</a>
-                            <span class="stock-info">- 5 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">20<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Greater Healing Potion" 
-                            data-price="20"
-                            data-item-id="1710"
-                            data-stock="5">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=21217">Sagefish Delight</a>
-                            <span class="stock-info">- 20 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">15<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Sagefish Delight" 
-                            data-price="15"
-                            data-item-id="21217"
-                            data-stock="20">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=12210">Roast Raptor</a>
-                            <span class="stock-info">- 20 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">5<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Roast Raptor" 
-                            data-price="5"
-                            data-item-id="12210"
-                            data-stock="20">Add to Cart</button>
                     </div>
                 </div>
-            </div>
 
-            <div class="category">
-                <h2 class="category-title">Herbs</h2>
-                <div class="items-grid">
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=2452">Swiftthistle</a>
-                            <span class="stock-info">- 26 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">20<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Swiftthistle" 
-                            data-price="20"
-                            data-item-id="2452"
-                            data-stock="26">Add to Cart</button>
+                <div class="shopping-basket" id="basket">
+                    <div class="basket-header">
+                        <h2 class="basket-title">Shopping Basket</h2>
+                        <div class="basket-count" id="basketCount">0</div>
                     </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=2450">Briarthorn</a>
-                            <span class="stock-info">- 40 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">10<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Briarthorn" 
-                            data-price="10"
-                            data-item-id="2450"
-                            data-stock="40">Add to Cart</button>
+                    
+                    <div class="basket-items" id="basketItems">
+                        <div class="empty-basket-message">Your basket is empty</div>
                     </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=785">Mageroyal</a>
-                            <span class="stock-info">- 30 in stock</span>
+                    
+                    <div class="basket-summary">
+                        <div class="summary-row">
+                            <span>Items:</span>
+                            <span id="basketItemsCount">0</span>
                         </div>
-                        <div class="price">
-                            <span class="currency-amount">2<div class="silver-icon"></div></span>
+                        <div class="summary-row">
+                            <span>Total:</span>
+                            <span id="basketTotal">
+                                <span id="basketGold">0</span>
+                                <span class="gold-icon"></span>
+                                <span id="basketSilver">0</span>
+                                <span class="silver-icon"></span>
+                            </span>
                         </div>
-                        <button class="add-to-cart" 
-                            data-item="Mageroyal" 
-                            data-price="2"
-                            data-item-id="785"
-                            data-stock="30">Add to Cart</button>
                     </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=8153">Wildvine</a>
-                            <span class="stock-info">- 13 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">10<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Wildvine" 
-                            data-price="10"
-                            data-item-id="8153"
-                            data-stock="13">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=10286">Heart of the Wild</a>
-                            <span class="stock-info">- 20 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">10<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Heart of the Wild" 
-                            data-price="10"
-                            data-item-id="10286"
-                            data-stock="20">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=3820">Stranglekelp</a>
-                            <span class="stock-info">- 7 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">5<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Stranglekelp" 
-                            data-price="5"
-                            data-item-id="3820"
-                            data-stock="7">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=3355">Wild Steelbloom</a>
-                            <span class="stock-info">- 41 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">20<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Wild Steelbloom" 
-                            data-price="20"
-                            data-item-id="3355"
-                            data-stock="41">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=3357">Liferoot</a>
-                            <span class="stock-info">- 27 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">15<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Liferoot" 
-                            data-price="15"
-                            data-item-id="3357"
-                            data-stock="27">Add to Cart</button>
-                    </div>
-
-                    <!-- Add to Herbs section -->
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=3356">Kingsblood</a>
-                            <span class="stock-info">- 44 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">3<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Kingsblood" 
-                            data-price="3"
-                            data-item-id="3356"
-                            data-stock="44">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=8831">Purple Lotus</a>
-                            <span class="stock-info">- 18 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">20<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Purple Lotus" 
-                            data-price="20"
-                            data-item-id="8831"
-                            data-stock="18">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=4625">Firebloom</a>
-                            <span class="stock-info">- 20 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">15<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Firebloom" 
-                            data-price="15"
-                            data-item-id="4625"
-                            data-stock="20">Add to Cart</button>
-                    </div>
-
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=3818">Fadeleaf</a>
-                            <span class="stock-info">- 12 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">15<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Fadeleaf" 
-                            data-price="15"
-                            data-item-id="3818"
-                            data-stock="12">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=3821">Goldthorn</a>
-                            <span class="stock-info">- 36 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">20<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Goldthorn" 
-                            data-price="20"
-                            data-item-id="3821"
-                            data-stock="36">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=3358">Khadgar's Whisker</a>
-                            <span class="stock-info">- 12 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">10<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Khadgar's Whisker" 
-                            data-price="10"
-                            data-item-id="3358"
-                            data-stock="12">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=2453">Bruiseweed</a>
-                            <span class="stock-info">- 17 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">8<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Bruiseweed" 
-                            data-price="8"
-                            data-item-id="2453"
-                            data-stock="17">Add to Cart</button>
-                    </div>
+                    
+                    <button class="checkout-btn" id="checkoutBtn">Checkout</button>
                 </div>
             </div>
-
-            <div class="category">
-                <h2 class="category-title">Reagents</h2>
-                <div class="items-grid">
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=12808">Essence of Undeath</a>
-                            <span class="stock-info">- 1 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">2<div class="gold-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Essence of Undeath" 
-                            data-price="200"
-                            data-item-id="12808"
-                            data-stock="1">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=11754">Black Diamond</a>
-                            <span class="stock-info">- 4 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">50<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Black Diamond" 
-                            data-price="50"
-                            data-item-id="11754"
-                            data-stock="4">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=10978">Small Glimmering Shard</a>
-                            <span class="stock-info">- 9 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">10<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Small Glimmering Shard" 
-                            data-price="10"
-                            data-item-id="10978"
-                            data-stock="9">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=5500">Iridescent Pearl</a>
-                            <span class="stock-info">- 2 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">1<div class="gold-icon"></div></span>
-                            <span class="currency-amount">25<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Iridescent Pearl" 
-                            data-price="125"
-                            data-item-id="5500"
-                            data-stock="2">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=12184">Raptor Flesh</a>
-                            <span class="stock-info">- 32 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">5<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Raptor Flesh" 
-                            data-price="5"
-                            data-item-id="12184"
-                            data-stock="32">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=4234">Heavy Leather</a>
-                            <span class="stock-info">- 16 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">20<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Heavy Leather" 
-                            data-price="20"
-                            data-item-id="4234"
-                            data-stock="16">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=4337">Thick Spider's Silk</a>
-                            <span class="stock-info">- 5 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">75<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Thick Spider's Silk" 
-                            data-price="75"
-                            data-item-id="4337"
-                            data-stock="5">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=13926">Golden Pearl</a>
-                            <span class="stock-info">- 1 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">1<div class="gold-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Golden Pearl" 
-                            data-price="100"
-                            data-item-id="13926"
-                            data-stock="1">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=6037">Truesilver Bar</a>
-                            <span class="stock-info">- 29 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">1<div class="gold-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Truesilver Bar" 
-                            data-price="100"
-                            data-item-id="6037"
-                            data-stock="29">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=7910">Star Ruby</a>
-                            <span class="stock-info">- 3 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">1<div class="gold-icon"></div></span>
-                            <span class="currency-amount">50<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Star Ruby" 
-                            data-price="150"
-                            data-item-id="7910"
-                            data-stock="3">Add to Cart</button>
-                    </div>
-
-                    <!-- Fix broken Mithril Casing entry -->
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=10561">Mithril Casing</a>
-                            <span class="stock-info">- 4 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">75<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Mithril Casing" 
-                            data-price="75"
-                            data-item-id="10561"
-                            data-stock="4">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=6371">Fire Oil</a>
-                            <span class="stock-info">- 29 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">75<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Fire Oil" 
-                            data-price="75"
-                            data-item-id="6371"
-                            data-stock="29">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=7070">Elemental Water</a>
-                            <span class="stock-info">- 8 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">75<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Elemental Water" 
-                            data-price="75"
-                            data-item-id="7070"
-                            data-stock="8">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=7068">Elemental Fire</a>
-                            <span class="stock-info">- 8 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">75<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Elemental Fire" 
-                            data-price="75"
-                            data-item-id="7068"
-                            data-stock="8">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=7067">Elemental Earth</a>
-                            <span class="stock-info">- 3 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">75<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Elemental Earth" 
-                            data-price="75"
-                            data-item-id="7067"
-                            data-stock="3">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=7069">Elemental Air</a>
-                            <span class="stock-info">- 3 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">75<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Elemental Air" 
-                            data-price="75"
-                            data-item-id="7069"
-                            data-stock="3">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=7078">Essence of Fire</a>
-                            <span class="stock-info">- 3 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">12<div class="gold-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Essence of Fire" 
-                            data-price="1200"
-                            data-item-id="7078"
-                            data-stock="3">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=4611">Blue Pearl</a>
-                            <span class="stock-info">- 2 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">50<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Blue Pearl" 
-                            data-price="50"
-                            data-item-id="4611"
-                            data-stock="2">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=8169">Thick Hide</a>
-                            <span class="stock-info">- 5 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">10<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Thick Hide" 
-                            data-price="10"
-                            data-item-id="8169"
-                            data-stock="5">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=12804">Powerful Mojo</a>
-                            <span class="stock-info">- 1 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">50<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Powerful Mojo" 
-                            data-price="50"
-                            data-item-id="12804"
-                            data-stock="1">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=7077">Heart of Fire</a>
-                            <span class="stock-info">- 1 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">30<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Heart of Fire" 
-                            data-price="30"
-                            data-item-id="7077"
-                            data-stock="1">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=14227">Ironweb Spider Silk</a>
-                            <span class="stock-info">- 4 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">50<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Ironweb Spider Silk" 
-                            data-price="50"
-                            data-item-id="14227"
-                            data-stock="4">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=2319">Medium Leather</a>
-                            <span class="stock-info">- 5 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">10<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Medium Leather" 
-                            data-price="10"
-                            data-item-id="2319"
-                            data-stock="5">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=2997">Bolt of Woolen Cloth</a>
-                            <span class="stock-info">- 5 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">25<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Bolt of Woolen Cloth" 
-                            data-price="25"
-                            data-item-id="2997"
-                            data-stock="5">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=12434">Chillwind E'ko</a>
-                            <span class="stock-info">- 7 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">1<div class="gold-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Chillwind E'ko" 
-                            data-price="100"
-                            data-item-id="12434"
-                            data-stock="7">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=6358">Oily Blackmouth</a>
-                            <span class="stock-info">- 7 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">10<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Oily Blackmouth" 
-                            data-price="10"
-                            data-item-id="6358"
-                            data-stock="7">Add to Cart</button>
-                    </div>
-
-                    <!-- Add to Reagents section -->
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=17056">Light Feather</a>
-                            <span class="stock-info">- 40 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">10<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Light Feather" 
-                            data-price="10"
-                            data-item-id="17056"
-                            data-stock="40">Add to Cart</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="category">
-                <h2 class="category-title">Items</h2>
-                <div class="items-grid">
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=16680">Beaststalker's Belt</a>
-                            <span class="stock-info">- 1 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">20<div class="gold-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Beaststalker's Belt" 
-                            data-price="2000"
-                            data-item-id="16680"
-                            data-stock="1"
-                            data-unique="true">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=16685">Magister's Belt</a>
-                            <span class="stock-info">- 1 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">15<div class="gold-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Magister's Belt" 
-                            data-price="1500"
-                            data-item-id="16685"
-                            data-stock="1"
-                            data-unique="true">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=13134">Belt of the Gladiator</a>
-                            <span class="stock-info">- 1 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">15<div class="gold-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Belt of the Gladiator" 
-                            data-price="1500"
-                            data-item-id="13134"
-                            data-stock="1"
-                            data-unique="true">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=16692">Devout Gloves</a>
-                            <span class="stock-info">- 1 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">10<div class="gold-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Devout Gloves" 
-                            data-price="1000"
-                            data-item-id="16692"
-                            data-stock="1"
-                            data-unique="true">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=13863">Runecloth Gloves</a>
-                            <span class="stock-info">- 1 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">5<div class="gold-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Runecloth Gloves" 
-                            data-price="500"
-                            data-item-id="13863"
-                            data-stock="1"
-                            data-unique="true">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=13102">Cassandra's Grace</a>
-                            <span class="stock-info">- 1 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">75<div class="gold-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Cassandra's Grace" 
-                            data-price="7500"
-                            data-item-id="13102"
-                            data-stock="1"
-                            data-unique="true">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=12056">Ring of the Heavens</a>
-                            <span class="stock-info">- 1 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">5<div class="gold-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Ring of the Heavens" 
-                            data-price="500"
-                            data-item-id="12056"
-                            data-stock="1"
-                            data-unique="true">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=4837">Strength of Will</a>
-                            <span class="stock-info">- 1 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">1<div class="gold-icon"></div></span>
-                            <span class="currency-amount">25<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Strength of Will" 
-                            data-price="125"
-                            data-item-id="4837"
-                            data-stock="1"
-                            data-unique="true">Add to Cart</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="category">
-                <h2 class="category-title">Patterns and Recipes</h2>
-                <div class="items-grid">
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=11206">Formula: Enchant Cloak - Lesser Agility</a>
-                            <span class="stock-info">- 1 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">1<div class="gold-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Formula: Enchant Cloak - Lesser Agility" 
-                            data-price="100"
-                            data-item-id="11206"
-                            data-stock="1"
-                            data-unique="true">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=15752">Pattern: Living Leggings</a>
-                            <span class="stock-info">- 1 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">10<div class="gold-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Pattern: Living Leggings" 
-                            data-price="1000"
-                            data-item-id="15752"
-                            data-stock="1"
-                            data-unique="true">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=5642">Recipe: Free Action Potion</a>
-                            <span class="stock-info">- 1 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">5<div class="gold-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Recipe: Free Action Potion" 
-                            data-price="500"
-                            data-item-id="5642"
-                            data-stock="1"
-                            data-unique="true">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=16049">Schematic: Dark Iron Bomb</a>
-                            <span class="stock-info">- 1 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">1<div class="gold-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Schematic: Dark Iron Bomb" 
-                            data-price="100"
-                            data-item-id="16049"
-                            data-stock="1"
-                            data-unique="true">Add to Cart</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="category">
-                <h2 class="category-title">Other</h2>
-                <div class="items-grid">
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=14046">Runecloth Bag</a>
-                            <span class="stock-info">- 5 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">4<div class="gold-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Runecloth Bag" 
-                            data-price="400"
-                            data-item-id="14046"
-                            data-stock="5">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=11734">Libram of Tenacity</a>
-                            <span class="stock-info">- 1 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">5<div class="gold-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Libram of Tenacity" 
-                            data-price="500"
-                            data-item-id="11734"
-                            data-stock="1"
-                            data-unique="true">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=11736">Libram of Resilience</a>
-                            <span class="stock-info">- 1 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">5<div class="gold-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Libram of Resilience" 
-                            data-price="500"
-                            data-item-id="11736"
-                            data-stock="1"
-                            data-unique="true">Add to Cart</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="category">
-                <h2 class="category-title">Cloth</h2>
-                <div class="items-grid">
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=4305">Bolt of Silk Cloth</a>
-                            <span class="stock-info">- 5 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">15<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Bolt of Silk Cloth" 
-                            data-price="15"
-                            data-item-id="4305"
-                            data-stock="5">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=4338">Mageweave Cloth</a>
-                            <span class="stock-info">- 38 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">5<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Mageweave Cloth" 
-                            data-price="5"
-                            data-item-id="4338"
-                            data-stock="38">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=4339">Bolt of Mageweave</a>
-                            <span class="stock-info">- 4 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">30<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Bolt of Mageweave" 
-                            data-price="30"
-                            data-item-id="4339"
-                            data-stock="4">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=14048">Bolt of Runecloth</a>
-                            <span class="stock-info">- 25 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">40<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Bolt of Runecloth" 
-                            data-price="40"
-                            data-item-id="14048"
-                            data-stock="25">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=2997">Bolt of Woolen Cloth</a>
-                            <span class="stock-info">- 5 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">10<div class="silver-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Bolt of Woolen Cloth" 
-                            data-price="10"
-                            data-item-id="2997"
-                            data-stock="5">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=14256">Felcloth</a>
-                            <span class="stock-info">- 4 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">5<div class="gold-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Felcloth" 
-                            data-price="500"
-                            data-item-id="14256"
-                            data-stock="4">Add to Cart</button>
-                    </div>
-
-                    <div class="item-row">
-                        <div class="item-name-container">
-                            <a href="https://www.wowhead.com/classic/item=14342">Mooncloth</a>
-                            <span class="stock-info">- 5 in stock</span>
-                        </div>
-                        <div class="price">
-                            <span class="currency-amount">17<div class="gold-icon"></div></span>
-                        </div>
-                        <button class="add-to-cart" 
-                            data-item="Mooncloth" 
-                            data-price="1700"
-                            data-item-id="14342"
-                            data-stock="5">Add to Cart</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="cart">
-            <h3 class="cart-title">Shopping Cart</h3>
-            <div class="cart-items"></div>
-            <div class="cart-total">Total: <div class="currency-display">0</div></div>
-            <div class="copy-instructions">
-                <span>Your order is below!</span>
-                <div class="help-tooltip">
-                    <div class="help-icon">?</div>
-                    <div class="tooltip-text">
-                        1. Copy this message<br>
-                        2. Mail it to Nymnsen in-game<br>
-                        3. Items will be sent C.O.D
-                    </div>
-                </div>
-            </div>
-            <textarea class="copy-text" readonly rows="4" placeholder="Your shopping list will appear here..."></textarea>
         </div>
     </div>
 
+    <!-- Replace the existing modal-overlay with this improved version -->
+    <div class="modal-overlay" id="checkoutModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h2>Your Order</h2>
+            
+            <div class="in-game-mail" id="mailText"></div>
+            <button class="copy-mail-btn" id="copyMailBtn">COPY TO CLIPBOARD</button>
+            <p class="copy-success" id="copySuccess">Copied successfully!</p>
+            
+            <div class="checkout-instructions">
+                <p><strong>Instructions:</strong></p>
+                <p>Copy the text above and send it to <strong>Nymnsen</strong> via in-game mail. The items will be sent to you via C.O.D. (Cash on Delivery).</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include the inventory data -->
+    <script src="inventory.js?v=20250226-3"></script>
+
     <script>
-        const cart = {};
-        let total = 0;
-
-        // Add category collapse functionality
-        document.querySelectorAll('.category-title').forEach(title => {
-            title.addEventListener('click', () => {
-                const itemsGrid = title.nextElementSibling;
-                title.classList.toggle('collapsed');
-                itemsGrid.classList.toggle('collapsed');
-            });
-        });
-
-        document.querySelectorAll('.add-to-cart').forEach(button => {
-            button.addEventListener('click', () => {
-                const item = button.dataset.item;
-                const price = parseInt(button.dataset.price);
-                const itemId = button.dataset.itemId;
-                const stock = parseInt(button.dataset.stock) || 0;
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM elements
+            const itemList = document.getElementById('itemList');
+            const basketItems = document.getElementById('basketItems');
+            const basketCount = document.getElementById('basketCount');
+            const basketItemsCount = document.getElementById('basketItemsCount');
+            const basketGold = document.getElementById('basketGold');
+            const basketSilver = document.getElementById('basketSilver');
+            const checkoutBtn = document.getElementById('checkoutBtn');
+            const checkoutModal = document.getElementById('checkoutModal');
+            const closeModal = document.getElementById('closeModal');
+            const mailText = document.getElementById('mailText');
+            const copyMailBtn = document.getElementById('copyMailBtn');
+            const copySuccess = document.getElementById('copySuccess');
+            const categoryTabs = document.querySelectorAll('.category-tab');
+            
+            // Add RGB versions of colors for use in rgba()
+            document.documentElement.style.setProperty('--primary-color-rgb', '78, 42, 132');
+            document.documentElement.style.setProperty('--accent-color-rgb', '0, 180, 204');
+            
+            // Shopping cart array to store selected items
+            let cart = [];
+            let currentCategory = 'all';
+            
+            // Display items based on the current category
+            function displayItems(category, sortBy = 'rarity-desc') {
+                // Clear the item list
+                itemList.innerHTML = '';
                 
-                // List of unique items (can only have quantity of 1)
-                const uniqueItems = ['Cassandra\'s Grace', 'Devout Belt'];
-                const isUnique = uniqueItems.includes(item);
-                
-                if (!cart[item]) {
-                    cart[item] = { 
-                        quantity: 0, 
-                        price: price,
-                        itemId: itemId,
-                        isUnique: isUnique,
-                        maxStock: stock
-                    };
-                }
-                
-                // Check stock limit
-                if (cart[item].quantity < cart[item].maxStock) {
-                    // Don't increment if it's a unique item that's already in cart
-                    if (!isUnique || cart[item].quantity === 0) {
-                        cart[item].quantity = (cart[item].quantity || 0) + 1;
-                        updateCart();
+                // Show all items or filter by category
+                let items = [];
+                if (category === 'all') {
+                    shopInventory.categories.forEach(cat => {
+                        items = items.concat(cat.items.map(item => ({...item, category: cat.id})));
+                    });
+                } else {
+                    const categoryData = shopInventory.categories.find(cat => cat.id === category);
+                    if (categoryData) {
+                        items = categoryData.items.map(item => ({...item, category: category}));
                     }
                 }
-
-                // Add click animation
-                button.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    button.style.transform = '';
-                }, 100);
-            });
-        });
-
-        function formatPrice(priceInSilver) {
-            const gold = Math.floor(priceInSilver / 100);
-            const silver = priceInSilver % 100;
-            let result = '';
-            
-            if (gold > 0) {
-                result += `<span class="currency-amount">${gold}<div class="gold-icon"></div></span>`;
-                if (silver > 0) {
-                    result += `<span class="currency-amount">${silver}<div class="silver-icon"></div></span>`;
-                }
-            } else {
-                result += `<span class="currency-amount">${silver}<div class="silver-icon"></div></span>`;
-            }
-            return result;
-        }
-
-        function formatPriceText(priceInSilver) {
-            const gold = Math.floor(priceInSilver / 100);
-            const silver = priceInSilver % 100;
-            
-            if (gold > 0) {
-                if (silver > 0) {
-                    return `${gold}g ${silver}s`;
-                }
-                return `${gold}g`;
-            }
-            return `${silver}s`;
-        }
-
-        // Add debounce function
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
-
-        // Debounce the search function
-        const debouncedFilter = debounce(function(searchTerm) {
-            searchTerm = searchTerm.toLowerCase();
-            const categories = document.querySelectorAll('.category');
-            let hasVisibleItems = false;
-
-            categories.forEach(category => {
-                const items = category.querySelectorAll('.item-row');
-                let categoryHasVisibleItems = false;
-
+                
+                // Sort items based on sortBy parameter
+                items = sortItems(items, sortBy);
+                
+                // Create item cards
                 items.forEach(item => {
-                    const itemName = item.querySelector('a').textContent.toLowerCase();
-                    const isVisible = itemName.includes(searchTerm);
-                    item.style.display = isVisible ? '' : 'none';
-                    if (isVisible) {
-                        categoryHasVisibleItems = true;
-                        hasVisibleItems = true;
+                    const itemCard = document.createElement('div');
+                    itemCard.className = `item-card ${item.quality}`;
+                    itemCard.innerHTML = `
+                        <div class="item-header">
+                            <div class="item-name">
+                                <a href="https://www.wowhead.com/classic/item=${item.id}" 
+                                   data-wowhead="item=${item.id}&domain=classic" 
+                                   class="wowhead-link" 
+                                   target="_blank">${item.name}</a>
+                            </div>
+                        </div>
+                        <div class="item-details">
+                            <div class="item-price">
+                                ${createPriceHTML(item)}
+                            </div>
+                            <div class="item-stock">In stock: ${item.stock}</div>
+                            ${item.unique ? '<div style="color: #ff8c00; font-size: 0.8rem;">Unique Item</div>' : ''}
+                        </div>
+                        <div class="item-actions">
+                            <div class="quantity-controls">
+                                <button class="quantity-btn qty-minus" data-id="${item.id}">-</button>
+                                <input type="number" class="quantity-input" min="1" max="${item.stock}" value="1" data-id="${item.id}">
+                                <button class="quantity-btn qty-plus" data-id="${item.id}">+</button>
+                            </div>
+                            <button class="add-to-cart" data-id="${item.id}" data-category="${item.category}">
+                                Add to Cart
+                            </button>
+                        </div>
+                    `;
+                    itemList.appendChild(itemCard);
+                    
+                    // Add event listeners for quantity buttons
+                    const minusBtn = itemCard.querySelector('.qty-minus');
+                    const plusBtn = itemCard.querySelector('.qty-plus');
+                    const qtyInput = itemCard.querySelector('.quantity-input');
+                    
+                    minusBtn.addEventListener('click', function() {
+                        if (parseInt(qtyInput.value) > 1) {
+                            qtyInput.value = parseInt(qtyInput.value) - 1;
+                        }
+                    });
+                    
+                    plusBtn.addEventListener('click', function() {
+                        if (parseInt(qtyInput.value) < parseInt(qtyInput.max)) {
+                            qtyInput.value = parseInt(qtyInput.value) + 1;
+                        }
+                    });
+                    
+                    // Add event listener for add to cart button
+                    const addToCartBtn = itemCard.querySelector('.add-to-cart');
+                    addToCartBtn.addEventListener('click', function() {
+                        const itemId = this.dataset.id;
+                        const itemCategory = this.dataset.category;
+                        const quantity = parseInt(qtyInput.value);
+                        
+                        // Find item in inventory
+                        const category = shopInventory.categories.find(cat => cat.id === itemCategory);
+                        const item = category.items.find(i => i.id === itemId);
+                        
+                        // Check if already in cart
+                        const existingItem = cart.find(cartItem => cartItem.id === itemId);
+                        
+                        if (existingItem) {
+                            // Check if adding would exceed stock
+                            if (existingItem.quantity + quantity <= item.stock) {
+                                existingItem.quantity += quantity;
+                            } else {
+                                existingItem.quantity = item.stock; // Set to max available
+                                alert(`You can only add ${item.stock} of this item to your cart.`);
+                            }
+                        } else {
+                            // Add new item to cart
+                            cart.push({
+                                id: item.id,
+                                name: item.name,
+                                price: {...item.price},
+                                quantity: quantity,
+                                category: itemCategory,
+                                quality: item.quality,
+                                stock: item.stock
+                            });
+                        }
+                        
+                        // Update the cart display
+                        updateCartDisplay();
+                    });
+                });
+                
+                // Refresh Wowhead tooltips
+                if (window.$WowheadPower) {
+                    window.$WowheadPower.refreshLinks();
+                }
+            }
+            
+            // Update the cart display function to use Wowhead's built-in icon functionality
+            function updateCartDisplay() {
+                // Clear current display
+                basketItems.innerHTML = '';
+                
+                if (cart.length === 0) {
+                    basketItems.innerHTML = '<div class="empty-basket-message">Your basket is empty</div>';
+                    basketCount.textContent = '0';
+                    basketItemsCount.textContent = '0';
+                    basketGold.textContent = '0';
+                    basketSilver.textContent = '0';
+                    return;
+                }
+                
+                // Count total items and cost
+                let totalItems = 0;
+                let totalGold = 0;
+                let totalSilver = 0;
+                
+                cart.forEach(item => {
+                    // Create cart item element
+                    const cartItemEl = document.createElement('div');
+                    cartItemEl.className = 'basket-item';
+                    
+                    // Calculate item total
+                    const itemTotalSilver = item.price.total * item.quantity;
+                    const itemGold = Math.floor(itemTotalSilver / 100);
+                    const itemSilver = itemTotalSilver % 100;
+                    
+                    cartItemEl.innerHTML = `
+                        <div class="basket-item-info">
+                            <div class="basket-item-details">
+                                <div class="basket-item-name ${item.quality}">
+                                    <a href="https://www.wowhead.com/classic/item=${item.id}" 
+                                       data-wowhead="item=${item.id}&domain=classic" 
+                                       class="wowhead-link" 
+                                       target="_blank">${item.name}</a>
+                                </div>
+                                <div class="basket-item-actions">
+                                    <div class="basket-quantity-controls">
+                                        <button class="basket-quantity-btn basket-qty-minus" data-id="${item.id}">-</button>
+                                        <input type="number" class="basket-quantity-input" min="1" max="${item.stock}" value="${item.quantity}" data-id="${item.id}">
+                                        <button class="basket-quantity-btn basket-qty-plus" data-id="${item.id}">+</button>
+                                    </div>
+                                    <div class="basket-item-total" title="Price per item: ${item.price.gold}g ${item.price.silver}s">
+                                        <span>${itemGold}</span>
+                                        <span class="gold-icon"></span>
+                                        <span>${itemSilver}</span>
+                                        <span class="silver-icon"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="basket-item-remove" data-id="${item.id}" title="Remove item">×</button>
+                    `;
+                    
+                    basketItems.appendChild(cartItemEl);
+                    
+                    // Add event listeners for cart quantity
+                    const minusBtn = cartItemEl.querySelector('.basket-qty-minus');
+                    const plusBtn = cartItemEl.querySelector('.basket-qty-plus');
+                    const qtyInput = cartItemEl.querySelector('.basket-quantity-input');
+                    const removeBtn = cartItemEl.querySelector('.basket-item-remove');
+                    
+                    minusBtn.addEventListener('click', function() {
+                        const itemId = this.dataset.id;
+                        const cartItem = cart.find(item => item.id === itemId);
+                        
+                        if (cartItem.quantity > 1) {
+                            cartItem.quantity--;
+                            updateCartDisplay();
+                        }
+                    });
+                    
+                    plusBtn.addEventListener('click', function() {
+                        const itemId = this.dataset.id;
+                        const cartItem = cart.find(item => item.id === itemId);
+                        
+                        if (cartItem.quantity < cartItem.stock) {
+                            cartItem.quantity++;
+                            updateCartDisplay();
+                        }
+                    });
+                    
+                    qtyInput.addEventListener('change', function() {
+                        const itemId = this.dataset.id;
+                        const cartItem = cart.find(item => item.id === itemId);
+                        const newQty = parseInt(this.value);
+                        
+                        if (newQty > 0 && newQty <= cartItem.stock) {
+                            cartItem.quantity = newQty;
+                        } else if (newQty > cartItem.stock) {
+                            cartItem.quantity = cartItem.stock;
+                        } else {
+                            cartItem.quantity = 1;
+                        }
+                        
+                        updateCartDisplay();
+                    });
+                    
+                    removeBtn.addEventListener('click', function() {
+                        const itemId = this.dataset.id;
+                        cart = cart.filter(item => item.id !== itemId);
+                        updateCartDisplay();
+                    });
+                    
+                    // Update totals
+                    totalItems += item.quantity;
+                    totalSilver += itemTotalSilver;
+                });
+                
+                // Update basket counts and totals
+                totalGold = Math.floor(totalSilver / 100);
+                totalSilver = totalSilver % 100;
+                
+                basketCount.textContent = totalItems;
+                basketItemsCount.textContent = totalItems;
+                basketGold.textContent = totalGold;
+                basketSilver.textContent = totalSilver;
+                
+                // Refresh Wowhead tooltips
+                if (window.$WowheadPower) {
+                    window.$WowheadPower.refreshLinks();
+                }
+            }
+            
+            // Generate in-game mail text
+            function generateMailText() {
+                const date = new Date().toLocaleDateString();
+                let text = `ORDER - ${date}\n\n`;
+                // Remove the "TO: Nymnsen" line
+                // text += `TO: Nymnsen\n\n`;
+                
+                // Add items
+                cart.forEach(item => {
+                    const itemTotalSilver = item.price.total * item.quantity;
+                    const itemGold = Math.floor(itemTotalSilver / 100);
+                    const itemSilver = itemTotalSilver % 100;
+                    
+                    text += `${item.name} x${item.quantity} (${item.price.gold}g ${item.price.silver}s each) = ${itemGold}g ${itemSilver}s\n`;
+                });
+                
+                // Add total
+                let totalSilver = 0;
+                cart.forEach(item => {
+                    totalSilver += item.price.total * item.quantity;
+                });
+                
+                const totalGold = Math.floor(totalSilver / 100);
+                const remainingSilver = totalSilver % 100;
+                
+                text += `\nTOTAL: ${totalGold} gold and ${remainingSilver} silver`;
+                
+                return text;
+            }
+            
+            // Initialize the shop
+            function init() {
+                // Display all items initially with default sorting (rarity-desc)
+                displayItems('all', 'rarity-desc');
+                
+                // Add event listeners for category tabs
+                categoryTabs.forEach(tab => {
+                    tab.addEventListener('click', function() {
+                        // Update active tab
+                        categoryTabs.forEach(t => t.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        // Update items display with current sort
+                        currentCategory = this.dataset.category;
+                        const currentSort = document.getElementById('sortSelect').value;
+                        displayItems(currentCategory, currentSort);
+                    });
+                });
+                
+                // Add event listener for sort select
+                const sortSelect = document.getElementById('sortSelect');
+                sortSelect.addEventListener('change', function() {
+                    displayItems(currentCategory, this.value);
+                });
+                
+                // Checkout button
+                checkoutBtn.addEventListener('click', function() {
+                    if (cart.length === 0) {
+                        alert('Your basket is empty!');
+                        return;
+                    }
+                    
+                    mailText.textContent = generateMailText();
+                    checkoutModal.classList.add('active');
+                });
+                
+                // Close modal
+                closeModal.addEventListener('click', function() {
+                    checkoutModal.classList.remove('active');
+                });
+                
+                // Copy mail text
+                copyMailBtn.addEventListener('click', function() {
+                    const tempTextarea = document.createElement('textarea');
+                    tempTextarea.value = mailText.textContent;
+                    document.body.appendChild(tempTextarea);
+                    tempTextarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempTextarea);
+                    
+                    copySuccess.classList.add('show');
+                    setTimeout(() => {
+                        copySuccess.classList.remove('show');
+                    }, 2000);
+                });
+                
+                // Close modal when clicking outside
+                checkoutModal.addEventListener('click', function(e) {
+                    if (e.target === checkoutModal) {
+                        checkoutModal.classList.remove('active');
                     }
                 });
-
-                category.style.display = categoryHasVisibleItems ? '' : 'none';
-            });
-
-        // Show "no results" message if needed
-        let noResultsMsg = document.querySelector('.no-results');
-        if (!hasVisibleItems) {
-            if (!noResultsMsg) {
-                noResultsMsg = document.createElement('div');
-                noResultsMsg.className = 'no-results';
-                noResultsMsg.textContent = 'No items found';
-                document.querySelector('.main-content').appendChild(noResultsMsg);
             }
-        } else if (noResultsMsg) {
-            noResultsMsg.remove();
-        }
-    }, 300);  // Wait 300ms before executing search
+            
+            // Initialize the shop
+            init();
+        });
+    </script>
 
-    function clearSearch() {
-        const searchInput = document.querySelector('.search-input');
-        searchInput.value = '';
-        document.querySelector('.clear-search').style.display = 'none';
-        debouncedFilter('');
-    }
-
-    // Modify the existing search input listener
-    document.querySelector('.search-input').addEventListener('input', (e) => {
-        const clearButton = document.querySelector('.clear-search');
-        clearButton.style.display = e.target.value ? 'block' : 'none';
-        debouncedFilter(e.target.value);
-    });
-
-    // Optimize cart updates
-    function updateCart() {
-        const cartItems = document.querySelector('.cart-items');
-        const cartTotal = document.querySelector('.cart-total');
-        const copyText = document.querySelector('.copy-text');
-        let cartHTML = '';
-        let total = 0;
-        
-        // Build cart HTML in memory instead of doing multiple DOM updates
-        for (const [item, data] of Object.entries(cart)) {
-            if (data.quantity > 0) {
-                const itemTotal = data.price * data.quantity;
-                total += itemTotal;
-                const escapedItem = item.replace(/'/g, "\\'").replace(/"/g, '\\"');
+    <!-- Add this script right after the main shop script, before the Wowhead scripts -->
+    <script>
+        // Define a global function to update item icons
+        function updateClassicItemIcons() {
+            // Process all elements with data-item-id attribute
+            document.querySelectorAll('[data-item-id]').forEach(element => {
+                const itemId = element.getAttribute('data-item-id');
                 
-                cartHTML += `
-                    <div class="cart-item">
-                        <button class="remove-item" onclick="removeItem('${escapedItem}')">×</button>
-                        <div class="cart-item-name">
-                            <a href="https://www.wowhead.com/classic/item=${data.itemId}">${item}</a>
+                // Map for Classic WoW item icons
+                const classicIconMap = {
+                    '16971': 'inv_misc_fish_13', // Clamlette Surprise
+                    '3825': 'inv_potion_44',    // Elixir of Fortitude
+                    '9187': 'inv_potion_09',    // Elixir of Greater Agility
+                    '9264': 'inv_potion_27',    // Elixir of Shadow Power
+                    '5634': 'inv_potion_04',    // Free Action Potion
+                    '13454': 'inv_potion_82',   // Greater Arcane Elixir
+                    '13461': 'inv_potion_45',   // Greater Arcane Protection Potion
+                    '13457': 'inv_potion_22',   // Greater Fire Protection Potion
+                    '1710': 'inv_potion_53',    // Greater Healing Potion
+                    '3823': 'inv_potion_47',    // Lesser Invisibility Potion
+                    '3387': 'inv_potion_83',    // Limited Invulnerability Potion
+                    '13446': 'inv_potion_76',   // Major Healing Potion
+                    '3826': 'inv_potion_07',    // Mighty Troll's Blood Potion
+                    '118': 'inv_potion_51',     // Minor Healing Potion
+                    '8766': 'inv_drink_10',     // Morning Glory Dew
+                    '13931': 'inv_drink_milk_05', // Nightfin Soup
+                    '8956': 'inv_potion_25',    // Oil of Immolation
+                    '5642': 'inv_scroll_03',    // Recipe: Free Action Potion
+                    '12210': 'inv_misc_food_73_roastraptor', // Roast Raptor
+                    '21217': 'inv_misc_fish_13', // Sagefish Delight
+                    '6657': 'inv_misc_fish_19', // Savory Deviate Delight
+                    '10306': 'inv_scroll_07',   // Scroll of Spirit IV
+                    '3928': 'inv_potion_54',    // Superior Healing Potion
+                    '2459': 'inv_potion_08',    // Swiftness Potion
+                    '12820': 'inv_potion_92',   // Winterfall Firewater
+                };
+                
+                // Check if we have a mapping for this item
+                if (classicIconMap[itemId]) {
+                    const size = element.classList.contains('basket-icon') ? 'small' : 'large';
+                    element.src = `https://wow.zamimg.com/images/wow/icons/${size}/${classicIconMap[itemId]}.jpg`;
+                }
+            });
+        }
+    </script>
+
+    <!-- Simple Wowhead tooltip configuration -->
+    <script>
+        const whTooltips = {
+            colorLinks: true,
+            iconizeLinks: true,  // Let Wowhead handle the icons
+            renameLinks: false,
+            iconSize: 'medium',
+            domain: 'classic'
+        };
+    </script>
+    <script src="https://wow.zamimg.com/widgets/power.js"></script>
+
+    <!-- Remove the custom icon handling scripts and simplify the item creation -->
+    <script>
+        // Modify the displayItems function to use Wowhead's built-in icon functionality
+        function displayItems(category, sortBy = 'rarity-desc') {
+            // Clear the item list
+            itemList.innerHTML = '';
+            
+            // Show all items or filter by category
+            let items = [];
+            if (category === 'all') {
+                shopInventory.categories.forEach(cat => {
+                    items = items.concat(cat.items.map(item => ({...item, category: cat.id})));
+                });
+            } else {
+                const categoryData = shopInventory.categories.find(cat => cat.id === category);
+                if (categoryData) {
+                    items = categoryData.items.map(item => ({...item, category: category}));
+                }
+            }
+            
+            // Sort items based on sortBy parameter
+            items = sortItems(items, sortBy);
+            
+            // Create item cards
+            items.forEach(item => {
+                const itemCard = document.createElement('div');
+                itemCard.className = `item-card ${item.quality}`;
+                itemCard.innerHTML = `
+                    <div class="item-header">
+                        <div class="item-name">
+                            <a href="https://www.wowhead.com/classic/item=${item.id}" 
+                               data-wowhead="item=${item.id}&domain=classic" 
+                               class="wowhead-link" 
+                               target="_blank">${item.name}</a>
                         </div>
-                        <input type="number" 
-                            class="quantity-input" 
-                            value="${data.quantity}" 
-                            min="0" 
-                            max="${data.isUnique ? 1 : data.maxStock}"
-                            ${data.isUnique ? 'disabled' : ''}
-                            data-item="${escapedItem}"
-                            onchange="updateItemQuantity('${escapedItem}', this.value)">
-                        <div class="cart-item-price">${formatPrice(itemTotal)}</div>
+                    </div>
+                    <div class="item-details">
+                        <div class="item-price">
+                            ${createPriceHTML(item)}
+                        </div>
+                        <div class="item-stock">In stock: ${item.stock}</div>
+                        ${item.unique ? '<div style="color: #ff8c00; font-size: 0.8rem;">Unique Item</div>' : ''}
+                    </div>
+                    <div class="item-actions">
+                        <div class="quantity-controls">
+                            <button class="quantity-btn qty-minus" data-id="${item.id}">-</button>
+                            <input type="number" class="quantity-input" min="1" max="${item.stock}" value="1" data-id="${item.id}">
+                            <button class="quantity-btn qty-plus" data-id="${item.id}">+</button>
+                        </div>
+                        <button class="add-to-cart" data-id="${item.id}" data-category="${item.category}">
+                            Add to Cart
+                        </button>
                     </div>
                 `;
+                itemList.appendChild(itemCard);
+                
+                // Add event listeners for quantity buttons
+                const minusBtn = itemCard.querySelector('.qty-minus');
+                const plusBtn = itemCard.querySelector('.qty-plus');
+                const qtyInput = itemCard.querySelector('.quantity-input');
+                
+                minusBtn.addEventListener('click', function() {
+                    if (parseInt(qtyInput.value) > 1) {
+                        qtyInput.value = parseInt(qtyInput.value) - 1;
+                    }
+                });
+                
+                plusBtn.addEventListener('click', function() {
+                    if (parseInt(qtyInput.value) < parseInt(qtyInput.max)) {
+                        qtyInput.value = parseInt(qtyInput.value) + 1;
+                    }
+                });
+                
+                // Add event listener for add to cart button
+                const addToCartBtn = itemCard.querySelector('.add-to-cart');
+                addToCartBtn.addEventListener('click', function() {
+                    const itemId = this.dataset.id;
+                    const itemCategory = this.dataset.category;
+                    const quantity = parseInt(qtyInput.value);
+                    
+                    // Find item in inventory
+                    const category = shopInventory.categories.find(cat => cat.id === itemCategory);
+                    const item = category.items.find(i => i.id === itemId);
+                    
+                    // Check if already in cart
+                    const existingItem = cart.find(cartItem => cartItem.id === itemId);
+                    
+                    if (existingItem) {
+                        // Check if adding would exceed stock
+                        if (existingItem.quantity + quantity <= item.stock) {
+                            existingItem.quantity += quantity;
+                        } else {
+                            existingItem.quantity = item.stock; // Set to max available
+                            alert(`You can only add ${item.stock} of this item to your cart.`);
+                        }
+                    } else {
+                        // Add new item to cart
+                        cart.push({
+                            id: item.id,
+                            name: item.name,
+                            price: {...item.price},
+                            quantity: quantity,
+                            category: itemCategory,
+                            quality: item.quality,
+                            stock: item.stock
+                        });
+                    }
+                    
+                    // Update the cart display
+                    updateCartDisplay();
+                });
+            });
+            
+            // Refresh Wowhead tooltips
+            if (window.$WowheadPower) {
+                window.$WowheadPower.refreshLinks();
             }
         }
         
-        // Update DOM once
-        cartItems.innerHTML = cartHTML;
-        cartTotal.innerHTML = `Total: <div class="currency-display">${formatPrice(total)}</div>`;
-        
-        // Create copy-paste text
-        let mailText = "Greetings Nymnsen! Here's my order:\n";
-        for (const [item, data] of Object.entries(cart)) {
-            if (data.quantity > 0) {
-                const itemTotal = data.price * data.quantity;
-                mailText += `${data.quantity}x ${item}, ${formatPriceText(data.price)} each - ${formatPriceText(itemTotal)} total\n`;
+        // Update the cart display function to use Wowhead's built-in icon functionality
+        function updateCartDisplay() {
+            // Clear current display
+            basketItems.innerHTML = '';
+            
+            if (cart.length === 0) {
+                basketItems.innerHTML = '<div class="empty-basket-message">Your basket is empty</div>';
+                basketCount.textContent = '0';
+                basketItemsCount.textContent = '0';
+                basketGold.textContent = '0';
+                basketSilver.textContent = '0';
+                return;
+            }
+            
+            // Count total items and cost
+            let totalItems = 0;
+            let totalGold = 0;
+            let totalSilver = 0;
+            
+            cart.forEach(item => {
+                // Create cart item element
+                const cartItemEl = document.createElement('div');
+                cartItemEl.className = 'basket-item';
+                
+                // Calculate item total
+                const itemTotalSilver = item.price.total * item.quantity;
+                const itemGold = Math.floor(itemTotalSilver / 100);
+                const itemSilver = itemTotalSilver % 100;
+                
+                cartItemEl.innerHTML = `
+                    <div class="basket-item-info">
+                        <div class="basket-item-details">
+                            <div class="basket-item-name ${item.quality}">
+                                <a href="https://www.wowhead.com/classic/item=${item.id}" 
+                                   data-wowhead="item=${item.id}&domain=classic" 
+                                   class="wowhead-link" 
+                                   target="_blank">${item.name}</a>
+                            </div>
+                            <div class="basket-item-actions">
+                                <div class="basket-quantity-controls">
+                                    <button class="basket-quantity-btn basket-qty-minus" data-id="${item.id}">-</button>
+                                    <input type="number" class="basket-quantity-input" min="1" max="${item.stock}" value="${item.quantity}" data-id="${item.id}">
+                                    <button class="basket-quantity-btn basket-qty-plus" data-id="${item.id}">+</button>
+                                </div>
+                                <div class="basket-item-total" title="Price per item: ${item.price.gold}g ${item.price.silver}s">
+                                    <span>${itemGold}</span>
+                                    <span class="gold-icon"></span>
+                                    <span>${itemSilver}</span>
+                                    <span class="silver-icon"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="basket-item-remove" data-id="${item.id}" title="Remove item">×</button>
+                `;
+                
+                basketItems.appendChild(cartItemEl);
+                
+                // Add event listeners for cart quantity
+                const minusBtn = cartItemEl.querySelector('.basket-qty-minus');
+                const plusBtn = cartItemEl.querySelector('.basket-qty-plus');
+                const qtyInput = cartItemEl.querySelector('.basket-quantity-input');
+                const removeBtn = cartItemEl.querySelector('.basket-item-remove');
+                
+                minusBtn.addEventListener('click', function() {
+                    const itemId = this.dataset.id;
+                    const cartItem = cart.find(item => item.id === itemId);
+                    
+                    if (cartItem.quantity > 1) {
+                        cartItem.quantity--;
+                        updateCartDisplay();
+                    }
+                });
+                
+                plusBtn.addEventListener('click', function() {
+                    const itemId = this.dataset.id;
+                    const cartItem = cart.find(item => item.id === itemId);
+                    
+                    if (cartItem.quantity < cartItem.stock) {
+                        cartItem.quantity++;
+                        updateCartDisplay();
+                    }
+                });
+                
+                qtyInput.addEventListener('change', function() {
+                    const itemId = this.dataset.id;
+                    const cartItem = cart.find(item => item.id === itemId);
+                    const newQty = parseInt(this.value);
+                    
+                    if (newQty > 0 && newQty <= cartItem.stock) {
+                        cartItem.quantity = newQty;
+                    } else if (newQty > cartItem.stock) {
+                        cartItem.quantity = cartItem.stock;
+                    } else {
+                        cartItem.quantity = 1;
+                    }
+                    
+                    updateCartDisplay();
+                });
+                
+                removeBtn.addEventListener('click', function() {
+                    const itemId = this.dataset.id;
+                    cart = cart.filter(item => item.id !== itemId);
+                    updateCartDisplay();
+                });
+                
+                // Update totals
+                totalItems += item.quantity;
+                totalSilver += itemTotalSilver;
+            });
+            
+            // Update basket counts and totals
+            totalGold = Math.floor(totalSilver / 100);
+            totalSilver = totalSilver % 100;
+            
+            basketCount.textContent = totalItems;
+            basketItemsCount.textContent = totalItems;
+            basketGold.textContent = totalGold;
+            basketSilver.textContent = totalSilver;
+            
+            // Refresh Wowhead tooltips
+            if (window.$WowheadPower) {
+                window.$WowheadPower.refreshLinks();
             }
         }
-        mailText += `\nTotal: ${formatPriceText(total)}`;
-        copyText.value = mailText;
+    </script>
 
-        // Only refresh Wowhead tooltips once after all updates are done
-        if (typeof $WowheadPower !== 'undefined') {
-            setTimeout(() => $WowheadPower.refreshLinks(), 100);
-        }
-    }
-
-    function updateItemQuantity(item, quantity) {
-        if (!cart[item]) return;
-        
-        quantity = parseInt(quantity) || 0;
-        if (quantity <= 0) {
-            delete cart[item];
-        } else {
-            // Don't allow quantity changes for unique items or exceeding stock
-            if (!cart[item].isUnique) {
-                cart[item].quantity = Math.min(quantity, cart[item].maxStock);
+    <!-- Add a function to sort items -->
+    <script>
+        function sortItems(items, sortBy) {
+            const rarityOrder = {
+                'common': 1,
+                'uncommon': 2,
+                'rare': 3,
+                'epic': 4,
+                'legendary': 5
+            };
+            
+            switch(sortBy) {
+                case 'rarity-desc':
+                    return items.sort((a, b) => rarityOrder[b.quality] - rarityOrder[a.quality]);
+                case 'rarity-asc':
+                    return items.sort((a, b) => rarityOrder[a.quality] - rarityOrder[b.quality]);
+                case 'price-desc':
+                    return items.sort((a, b) => {
+                        const aTotal = a.price.total;
+                        const bTotal = b.price.total;
+                        return bTotal - aTotal;
+                    });
+                case 'price-asc':
+                    return items.sort((a, b) => {
+                        const aTotal = a.price.total;
+                        const bTotal = b.price.total;
+                        return aTotal - bTotal;
+                    });
+                case 'name-asc':
+                    return items.sort((a, b) => a.name.localeCompare(b.name));
+                case 'name-desc':
+                    return items.sort((a, b) => b.name.localeCompare(a.name));
+                default:
+                    return items;
             }
         }
-        updateCart();
-    }
+    </script>
 
-    function removeItem(item) {
-        delete cart[item];
-        updateCart();
-    }
+    <!-- Update the checkout function to separate instructions from copy-paste content -->
+    <script>
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Your basket is empty!');
+                return;
+            }
+            
+            // Create modal for checkout
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            
+            // Get current date + 1 day for "delivery date"
+            const today = new Date();
+            const deliveryDate = new Date(today);
+            deliveryDate.setDate(today.getDate() + 1);
+            const formattedDate = `${deliveryDate.getMonth() + 1}/${deliveryDate.getDate()}/${deliveryDate.getFullYear()}`;
+            
+            // Calculate total
+            let totalSilver = 0;
+            cart.forEach(item => {
+                totalSilver += item.price.total * item.quantity;
+            });
+            const totalGold = Math.floor(totalSilver / 100);
+            const remainingSilver = totalSilver % 100;
+            
+            // Create order text (this is what will be copied)
+            let orderText = '';
+            
+            // Add items with quantities and prices
+            cart.forEach(item => {
+                const itemTotalSilver = item.price.total * item.quantity;
+                const itemGold = Math.floor(itemTotalSilver / 100);
+                const itemSilver = itemTotalSilver % 100;
+                
+                orderText += `${item.name} x${item.quantity} (${item.price.gold}g ${item.price.silver}s each) = ${itemGold}g ${itemSilver}s\n`;
+            });
+            
+            // Add total
+            orderText += `\nTOTAL: ${totalGold} gold and ${remainingSilver} silver`;
+            
+            // Create modal content
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <span class="close-modal">&times;</span>
+                    <h2>Your Order</h2>
+                    
+                    <div class="checkout-info">
+                        <p>Copy and paste the following text into an in-game mail to place your order:</p>
+                    </div>
+                    
+                    <div class="checkout-copy-area">
+                        <textarea id="orderDetails" readonly>${orderText}</textarea>
+                        <button id="copyOrder" class="copy-button">COPY TO CLIPBOARD</button>
+                    </div>
+                    
+                    <div class="checkout-instructions">
+                        <p><strong>ORDER - ${formattedDate}</strong></p>
+                        <p><strong>TO:</strong> Nymnsen</p>
+                        <p>The items will be sent to you via C.O.D. (Cash on Delivery).</p>
+                    </div>
+                    
+                    <div class="checkout-actions">
+                        <button id="confirmOrder" class="confirm-button">Confirm Order</button>
+                        <button id="cancelOrder" class="cancel-button">Cancel</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Add event listeners
+            const closeBtn = modal.querySelector('.close-modal');
+            const copyBtn = modal.querySelector('#copyOrder');
+            const confirmBtn = modal.querySelector('#confirmOrder');
+            const cancelBtn = modal.querySelector('#cancelOrder');
+            const textarea = modal.querySelector('#orderDetails');
+            
+            closeBtn.addEventListener('click', function() {
+                document.body.removeChild(modal);
+            });
+            
+            copyBtn.addEventListener('click', function() {
+                textarea.select();
+                document.execCommand('copy');
+                this.textContent = 'COPIED!';
+                setTimeout(() => {
+                    this.textContent = 'COPY TO CLIPBOARD';
+                }, 2000);
+            });
+            
+            confirmBtn.addEventListener('click', function() {
+                // Clear cart and close modal
+                cart = [];
+                updateCartDisplay();
+                document.body.removeChild(modal);
+                
+                // Show confirmation message
+                const confirmMessage = document.createElement('div');
+                confirmMessage.className = 'confirm-message';
+                confirmMessage.textContent = 'Order placed successfully!';
+                document.body.appendChild(confirmMessage);
+                
+                setTimeout(() => {
+                    document.body.removeChild(confirmMessage);
+                }, 3000);
+            });
+            
+            cancelBtn.addEventListener('click', function() {
+                document.body.removeChild(modal);
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+        }
+    </script>
+
+    <!-- Add a function to create price HTML -->
+    <script>
+        function createPriceHTML(item) {
+            let priceHTML = '';
+            
+            // Handle different price formats
+            if (item.price) {
+                if (typeof item.price === 'object' && item.price !== null) {
+                    // New format
+                    const gold = item.price.gold || 0;
+                    const silver = item.price.silver || 0;
+                    priceHTML = `${gold}<span class="gold-icon"></span>${silver}<span class="silver-icon"></span>`;
+                } else {
+                    // Old format (single number)
+                    const gold = Math.floor(item.price / 100);
+                    const silver = item.price % 100;
+                    priceHTML = `${gold}<span class="gold-icon"></span>${silver}<span class="silver-icon"></span>`;
+                }
+            } else {
+                // Fallback if price is missing
+                priceHTML = `0<span class="gold-icon"></span>0<span class="silver-icon"></span>`;
+            }
+            
+            return priceHTML;
+        }
     </script>
 </body>
 </html>
