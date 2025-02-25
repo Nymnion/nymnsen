@@ -581,7 +581,7 @@ const shopInventory = {
             "silver": 50,
             "total": 50
           },
-          "stock": 2,
+          "stock": 1,
           "quality": "uncommon",
           "unique": false
         },
@@ -738,7 +738,7 @@ const shopInventory = {
             "total": 20
           },
           "stock": 1,
-          "quality": "uncommon",
+          "quality": "rare",
           "unique": false
         },
         {
@@ -774,7 +774,7 @@ const shopInventory = {
             "total": 200
           },
           "stock": 1,
-          "quality": "uncommon",
+          "quality": "rare",
           "unique": false
         },
         {
