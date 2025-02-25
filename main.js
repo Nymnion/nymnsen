@@ -1,6 +1,7 @@
 // Main Shop Functionality
-
 document.addEventListener('DOMContentLoaded', function() {
+    console.log("Shop script loaded! - version: 20250226-1");
+    
     // DOM elements
     const itemList = document.getElementById('itemList');
     const basketItems = document.getElementById('basketItems');
@@ -15,12 +16,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const copyMailBtn = document.getElementById('copyMailBtn');
     const copySuccess = document.getElementById('copySuccess');
     const categoryTabs = document.querySelectorAll('.category-tab');
+    const searchInput = document.getElementById('searchInput');
+    const searchClearBtn = document.getElementById('searchClearBtn');
+    const sortSelect = document.getElementById('sortSelect');
     
     // Shopping cart array to store selected items
     let cart = [];
     let currentCategory = 'all';
+    let searchTerm = '';
+    let currentSort = 'name-asc';
     
-    // Display items based on the current category
+    // Display items based on the current category, search term, and sort order
     function displayItems(category) {
         // Clear the item list
         itemList.innerHTML = '';
@@ -38,24 +44,45 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
+        // Filter by search term if present
+        if (searchTerm) {
+            const term = searchTerm.toLowerCase();
+            items = items.filter(item => 
+                item.name.toLowerCase().includes(term)
+            );
+        }
+        
+        // Sort items
+        sortItems(items);
+        
+        // If no items found, show message
+        if (items.length === 0) {
+            itemList.innerHTML = '<div class="no-items-message">No items found. Try a different search or category.</div>';
+            return;
+        }
+        
         // Create item cards
         items.forEach(item => {
             const itemCard = document.createElement('div');
             itemCard.className = `item-card ${item.quality}`;
             itemCard.innerHTML = `
                 <div class="item-header">
-                    <img class="item-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg" alt="${item.name}">
-                    <div class="item-name" data-wowhead="item=${item.id}">${item.name}</div>
+                    <div class="item-name">
+                        <a href="https://www.wowhead.com/classic/item=${item.id}" 
+                           data-wowhead="item=${item.id}&domain=classic" 
+                           class="wowhead-link" 
+                           target="_blank">${item.name}</a>
+                    </div>
                 </div>
                 <div class="item-details">
-                    <div class="item-price">
-                        <span>${item.price.gold}</span>
-                        <span class="gold-icon"></span>
-                        <span>${item.price.silver}</span>
-                        <span class="silver-icon"></span>
+                    <div class="item-price-stock">
+                        <div class="item-price">
+                            ${item.price.gold}<span class="gold-icon"></span>
+                            ${item.price.silver}<span class="silver-icon"></span>
+                        </div>
+                        <div class="item-stock">In stock: ${item.stock}</div>
+                        ${item.unique ? '<div style="color: #ff8c00; font-size: 0.8rem;">Unique Item</div>' : ''}
                     </div>
-                    <div class="item-stock">In stock: ${item.stock}</div>
-                    ${item.unique ? '<div style="color: #ff8c00; font-size: 0.8rem;">Unique Item</div>' : ''}
                 </div>
                 <div class="item-actions">
                     <div class="quantity-controls">
@@ -64,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <button class="quantity-btn qty-plus" data-id="${item.id}">+</button>
                     </div>
                     <button class="add-to-cart" data-id="${item.id}" data-category="${item.category}">
-                        Add to Cart
+                        ADD TO CART
                     </button>
                 </div>
             `;
@@ -127,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
         
-        // Load Wowhead tooltips
+        // Refresh Wowhead tooltips
         if (window.$WowheadPower) {
             window.$WowheadPower.refreshLinks();
         }
@@ -149,7 +176,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Count total items and cost
         let totalItems = 0;
-        let totalGold = 0;
         let totalSilver = 0;
         
         cart.forEach(item => {
@@ -164,25 +190,29 @@ document.addEventListener('DOMContentLoaded', function() {
             
             cartItemEl.innerHTML = `
                 <div class="basket-item-info">
-                    <div class="basket-item-name ${item.quality}" data-wowhead="item=${item.id}">${item.name}</div>
-                    <div class="basket-item-price">
-                        <span>${item.price.gold}</span>
-                        <span class="gold-icon"></span>
-                        <span>${item.price.silver}</span>
-                        <span class="silver-icon"></span>
-                        × ${item.quantity} = 
-                        <span>${itemGold}</span>
-                        <span class="gold-icon"></span>
-                        <span>${itemSilver}</span>
-                        <span class="silver-icon"></span>
-                    </div>
-                    <div class="basket-item-quantity">
-                        <button class="basket-quantity-btn basket-qty-minus" data-id="${item.id}">-</button>
-                        <input type="number" class="basket-quantity-input" min="1" max="${item.stock}" value="${item.quantity}" data-id="${item.id}">
-                        <button class="basket-quantity-btn basket-qty-plus" data-id="${item.id}">+</button>
+                    <div class="basket-item-details">
+                        <div class="basket-item-name ${item.quality}">
+                            <a href="https://www.wowhead.com/classic/item=${item.id}" 
+                               data-wowhead="item=${item.id}&domain=classic" 
+                               class="wowhead-link" 
+                               target="_blank">${item.name}</a>
+                        </div>
+                        <div class="basket-item-actions">
+                            <div class="basket-quantity-controls">
+                                <button class="basket-quantity-btn basket-qty-minus" data-id="${item.id}">-</button>
+                                <input type="number" class="basket-quantity-input" min="1" max="${item.stock}" value="${item.quantity}" data-id="${item.id}">
+                                <button class="basket-quantity-btn basket-qty-plus" data-id="${item.id}">+</button>
+                            </div>
+                            <div class="basket-item-total" title="Price per item: ${item.price.gold}g ${item.price.silver}s">
+                                <span>${itemGold}</span>
+                                <span class="gold-icon"></span>
+                                <span>${itemSilver}</span>
+                                <span class="silver-icon"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <button class="basket-item-remove" data-id="${item.id}">×</button>
+                <button class="basket-item-remove" data-id="${item.id}" title="Remove item">×</button>
             `;
             
             basketItems.appendChild(cartItemEl);
@@ -241,13 +271,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // Update basket counts and totals
-        totalGold = Math.floor(totalSilver / 100);
-        totalSilver = totalSilver % 100;
+        const totalGold = Math.floor(totalSilver / 100);
+        const remainingSilver = totalSilver % 100;
         
         basketCount.textContent = totalItems;
         basketItemsCount.textContent = totalItems;
         basketGold.textContent = totalGold;
-        basketSilver.textContent = totalSilver;
+        basketSilver.textContent = remainingSilver;
         
         // Refresh Wowhead tooltips
         if (window.$WowheadPower) {
@@ -279,9 +309,41 @@ document.addEventListener('DOMContentLoaded', function() {
         const remainingSilver = totalSilver % 100;
         
         text += `\nTOTAL: ${totalGold} gold and ${remainingSilver} silver`;
-        text += `\n\nPlease send payment with this mail. Items will be mailed or traded upon payment confirmation.`;
         
         return text;
+    }
+    
+    // Sort items based on current sort selection
+    function sortItems(items) {
+        const rarityOrder = {
+            'common': 1,
+            'uncommon': 2,
+            'rare': 3,
+            'epic': 4,
+            'legendary': 5
+        };
+        
+        switch(currentSort) {
+            case 'name-asc':
+                items.sort((a, b) => a.name.localeCompare(b.name));
+                break;
+            case 'name-desc':
+                items.sort((a, b) => b.name.localeCompare(a.name));
+                break;
+            case 'price-asc':
+                items.sort((a, b) => a.price.total - b.price.total);
+                break;
+            case 'price-desc':
+                items.sort((a, b) => b.price.total - a.price.total);
+                break;
+            case 'rarity-desc':
+                items.sort((a, b) => rarityOrder[b.quality] - rarityOrder[a.quality]);
+                break;
+            case 'rarity-asc':
+                items.sort((a, b) => rarityOrder[a.quality] - rarityOrder[b.quality]);
+                break;
+        }
+        return items;
     }
     
     // Initialize the shop
@@ -300,6 +362,33 @@ document.addEventListener('DOMContentLoaded', function() {
                 currentCategory = this.dataset.category;
                 displayItems(currentCategory);
             });
+        });
+        
+        // Search functionality
+        searchInput.addEventListener('input', function() {
+            searchTerm = this.value.trim();
+            console.log("Search term:", searchTerm); // Debug logging
+            
+            if (searchTerm) {
+                searchClearBtn.style.display = 'block';
+            } else {
+                searchClearBtn.style.display = 'none';
+            }
+            
+            displayItems(currentCategory);
+        });
+        
+        searchClearBtn.addEventListener('click', function() {
+            searchInput.value = '';
+            searchTerm = '';
+            this.style.display = 'none';
+            displayItems(currentCategory);
+        });
+        
+        // Sort functionality
+        sortSelect.addEventListener('change', function() {
+            currentSort = this.value;
+            displayItems(currentCategory);
         });
         
         // Checkout button
@@ -343,4 +432,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize the shop
     init();
+    
+    // Update cart display initially
+    updateCartDisplay();
 });

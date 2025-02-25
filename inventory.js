@@ -1,38 +1,13 @@
-console.log("Inventory loaded - version: 20250226-2");
-console.log("Inventory loaded - version: 20250226-3");
+console.log("Inventory loaded - version: 20250226-4");
 
 const shopInventory = {
   "shopName": "Nymnsen's Trinkets & Curiosities",
-  "lastUpdated": "2025-02-26T09:00:00.000Z",
+  "lastUpdated": "2025-02-26T14:00:00.000Z",
   "categories": [
     {
       "id": "consumables",
       "name": "Consumables",
       "items": [
-        {
-          "id": "16971",
-          "name": "Clamlette Surprise",
-          "price": {
-            "gold": 0,
-            "silver": 15,
-            "total": 15
-          },
-          "stock": 20,
-          "quality": "common",
-          "unique": false
-        },
-        {
-          "id": "3825",
-          "name": "Elixir of Fortitude",
-          "price": {
-            "gold": 0,
-            "silver": 60,
-            "total": 60
-          },
-          "stock": 30,
-          "quality": "common",
-          "unique": false
-        },
         {
           "id": "9187",
           "name": "Elixir of Greater Agility",
@@ -166,18 +141,6 @@ const shopInventory = {
           "unique": false
         },
         {
-          "id": "6657",
-          "name": "Savory Deviate Delight",
-          "price": {
-            "gold": 0,
-            "silver": 20,
-            "total": 20
-          },
-          "stock": 16,
-          "quality": "common",
-          "unique": false
-        },
-        {
           "id": "3928",
           "name": "Superior Healing Potion",
           "price": {
@@ -210,30 +173,6 @@ const shopInventory = {
             "total": 5
           },
           "stock": 40,
-          "quality": "common",
-          "unique": false
-        },
-        {
-          "id": "12820",
-          "name": "Winterfall Firewater",
-          "price": {
-            "gold": 0,
-            "silver": 75,
-            "total": 75
-          },
-          "stock": 15,
-          "quality": "common",
-          "unique": false
-        },
-        {
-          "id": "8956",
-          "name": "Oil of Immolation",
-          "price": {
-            "gold": 0,
-            "silver": 30,
-            "total": 30
-          },
-          "stock": 25,
           "quality": "common",
           "unique": false
         }
@@ -514,18 +453,6 @@ const shopInventory = {
           "unique": false
         },
         {
-          "id": "13926",
-          "name": "Golden Pearl",
-          "price": {
-            "gold": 5,
-            "silver": 0,
-            "total": 500
-          },
-          "stock": 1,
-          "quality": "uncommon",
-          "unique": false
-        },
-        {
           "id": "7077",
           "name": "Heart of Fire",
           "price": {
@@ -590,10 +517,10 @@ const shopInventory = {
           "name": "Light Feather",
           "price": {
             "gold": 0,
-            "silver": 10,
-            "total": 10
+            "silver": 20,
+            "total": 20
           },
-          "stock": 76,
+          "stock": 36,
           "quality": "common",
           "unique": false
         },
@@ -631,6 +558,162 @@ const shopInventory = {
           },
           "stock": 1,
           "quality": "rare",
+          "unique": false
+        },
+        {
+          "id": "17034",
+          "name": "Maple Seed",
+          "price": {
+            "gold": 0,
+            "silver": 10,
+            "total": 10
+          },
+          "stock": 20,
+          "quality": "common",
+          "unique": false
+        },
+        {
+          "id": "17035",
+          "name": "Stranglethorn Seed",
+          "price": {
+            "gold": 0,
+            "silver": 10,
+            "total": 10
+          },
+          "stock": 20,
+          "quality": "common",
+          "unique": false
+        },
+        {
+          "id": "17031",
+          "name": "Rune of Teleportation",
+          "price": {
+            "gold": 0,
+            "silver": 20,
+            "total": 20
+          },
+          "stock": 20,
+          "quality": "common",
+          "unique": false
+        },
+        {
+          "id": "17032",
+          "name": "Rune of Portals",
+          "price": {
+            "gold": 0,
+            "silver": 40,
+            "total": 40
+          },
+          "stock": 20,
+          "quality": "common",
+          "unique": false
+        },
+        {
+          "id": "17020",
+          "name": "Arcane Powder",
+          "price": {
+            "gold": 0,
+            "silver": 20,
+            "total": 20
+          },
+          "stock": 20,
+          "quality": "common",
+          "unique": false
+        },
+        {
+          "id": "17030",
+          "name": "Ankh",
+          "price": {
+            "gold": 0,
+            "silver": 20,
+            "total": 20
+          },
+          "stock": 20,
+          "quality": "common",
+          "unique": false
+        },
+        {
+          "id": "17033",
+          "name": "Symbol of Divinity",
+          "price": {
+            "gold": 0,
+            "silver": 20,
+            "total": 20
+          },
+          "stock": 20,
+          "quality": "common",
+          "unique": false
+        },
+        {
+          "id": "17028",
+          "name": "Holy Candle",
+          "price": {
+            "gold": 0,
+            "silver": 10,
+            "total": 10
+          },
+          "stock": 20,
+          "quality": "common",
+          "unique": false
+        },
+        {
+          "id": "17029",
+          "name": "Sacred Candle",
+          "price": {
+            "gold": 0,
+            "silver": 20,
+            "total": 20
+          },
+          "stock": 20,
+          "quality": "common",
+          "unique": false
+        },
+        {
+          "id": "17021",
+          "name": "Wild Berries",
+          "price": {
+            "gold": 0,
+            "silver": 10,
+            "total": 10
+          },
+          "stock": 20,
+          "quality": "common",
+          "unique": false
+        },
+        {
+          "id": "17026",
+          "name": "Wild Thornroot",
+          "price": {
+            "gold": 0,
+            "silver": 10,
+            "total": 10
+          },
+          "stock": 20,
+          "quality": "common",
+          "unique": false
+        },
+        {
+          "id": "5565",
+          "name": "Infernal Stone",
+          "price": {
+            "gold": 0,
+            "silver": 50,
+            "total": 50
+          },
+          "stock": 20,
+          "quality": "uncommon",
+          "unique": false
+        },
+        {
+          "id": "16583",
+          "name": "Demonic Figurine",
+          "price": {
+            "gold": 0,
+            "silver": 50,
+            "total": 50
+          },
+          "stock": 20,
+          "quality": "uncommon",
           "unique": false
         }
       ]
@@ -918,18 +1001,6 @@ const shopInventory = {
             "total": 400
           },
           "stock": 5,
-          "quality": "uncommon",
-          "unique": false
-        },
-        {
-          "id": "11736",
-          "name": "Libram of Resilience",
-          "price": {
-            "gold": 2,
-            "silver": 0,
-            "total": 200
-          },
-          "stock": 1,
           "quality": "uncommon",
           "unique": false
         },
