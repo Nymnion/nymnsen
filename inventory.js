@@ -559,11 +559,7 @@ const shopInventory = {
           "stock": 1,
           "quality": "rare",
           "unique": false
-        },
-
-
-
-
+        }
       ]
     },
     {

@@ -155,8 +155,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // Refresh Wowhead tooltips
-        if (window.$WowheadPower) {
-            window.$WowheadPower.refreshLinks();
+        if (window.$WowheadPower && window.$WowheadPower.refreshLinks) {
+            setTimeout(function() {
+                window.$WowheadPower.refreshLinks();
+            }, 100);
         }
     }
     
@@ -280,8 +282,10 @@ document.addEventListener('DOMContentLoaded', function() {
         basketSilver.textContent = remainingSilver;
         
         // Refresh Wowhead tooltips
-        if (window.$WowheadPower) {
-            window.$WowheadPower.refreshLinks();
+        if (window.$WowheadPower && window.$WowheadPower.refreshLinks) {
+            setTimeout(function() {
+                window.$WowheadPower.refreshLinks();
+            }, 100);
         }
     }
     
