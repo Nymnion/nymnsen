@@ -590,18 +590,7 @@ const shopInventory = {
           "quality": "rare",
           "unique": true
         },
-        {
-          "id": "13102",
-          "name": "Cassandra's Grace",
-          "price": {
-            "gold": 75,
-            "silver": 0,
-            "total": 7500
-          },
-          "stock": 1,
-          "quality": "rare",
-          "unique": true
-        },
+
         {
           "id": "16692",
           "name": "Devout Gloves",
