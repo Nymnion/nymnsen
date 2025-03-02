@@ -52,7 +52,7 @@ const shopInventory = {
             "silver": 75,
             "total": 75
           },
-          "stock": 3,
+          "stock": 2,
           "quality": "common",
           "unique": false
         },
@@ -591,18 +591,7 @@ const shopInventory = {
           "unique": true
         },
 
-        {
-          "id": "16692",
-          "name": "Devout Gloves",
-          "price": {
-            "gold": 10,
-            "silver": 0,
-            "total": 1000
-          },
-          "stock": 1,
-          "quality": "rare",
-          "unique": true
-        },
+
         {
           "id": "12056",
           "name": "Ring of the Heavens",
@@ -627,18 +616,7 @@ const shopInventory = {
           "quality": "uncommon",
           "unique": false
         },
-        {
-          "id": "13863",
-          "name": "Runecloth Gloves",
-          "price": {
-            "gold": 2,
-            "silver": 0,
-            "total": 200
-          },
-          "stock": 2,
-          "quality": "uncommon",
-          "unique": false
-        }
+
       ]
     },
     {
