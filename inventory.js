@@ -64,7 +64,7 @@ const shopInventory = {
             "silver": 50,
             "total": 150
           },
-          "stock": 3,
+          "stock": 2,
           "quality": "common",
           "unique": false
         },
@@ -76,7 +76,7 @@ const shopInventory = {
             "silver": 30,
             "total": 30
           },
-          "stock": 38,
+          "stock": 28,
           "quality": "common",
           "unique": false
         },
